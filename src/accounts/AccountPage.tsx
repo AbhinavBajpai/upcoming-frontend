@@ -234,11 +234,17 @@ export function AccountPage({ mode }: { mode: Mode }) {
             )}
             {showPassword && (
               <label>
-                {mode === "reset-password" ? "New password" : "Password"}
+                <span id="account-password-label">
+                  {mode === "reset-password" ? "New password" : "Password"}
+                </span>
                 <input
                   required
                   type="password"
                   name="password"
+                  aria-labelledby="account-password-label"
+                  aria-describedby={
+                    mode === "login" ? undefined : "password-hint"
+                  }
                   autoComplete={
                     mode === "login" ? "current-password" : "new-password"
                   }
@@ -248,7 +254,7 @@ export function AccountPage({ mode }: { mode: Mode }) {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 {mode !== "login" && (
-                  <span className="field-hint">
+                  <span className="field-hint" id="password-hint">
                     At least 12 characters. Password managers are welcome.
                   </span>
                 )}
