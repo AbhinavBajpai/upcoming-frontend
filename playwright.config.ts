@@ -26,7 +26,8 @@ export default defineConfig({
     ...(process.env.E2E_BACKEND_PATH
       ? [
           {
-            command: "npm run db:migrate && npm start",
+            command:
+              "npm run db:migrate && node scripts/seed-browser-tests.mjs && npm start",
             cwd: process.env.E2E_BACKEND_PATH,
             url: "http://127.0.0.1:3000/api/ready",
             reuseExistingServer: false,

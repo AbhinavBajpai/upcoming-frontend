@@ -1,10 +1,9 @@
+import { FilmCard } from "../components/FilmCard";
 import { useEffect, useRef, useState } from "react";
 import {
   CalendarDays,
   ChevronLeft,
   ChevronRight,
-  Film,
-  ExternalLink,
   MapPin,
   Search,
   X,
@@ -22,29 +21,6 @@ import {
 type Result =
   | { month: string; data: CalendarData; error?: never }
   | { month: string; error: true; data?: never };
-function Poster({ film }: { film: CalendarFilm }) {
-  const [failed, setFailed] = useState(false);
-  const valid = film.posterPath && /^\/[a-zA-Z0-9_.-]+$/.test(film.posterPath);
-  return (
-    <div className="poster">
-      {valid && !failed ? (
-        <img
-          src={`https://image.tmdb.org/t/p/w185${film.posterPath}`}
-          alt=""
-          width="92"
-          height="138"
-          loading="lazy"
-          onError={() => setFailed(true)}
-        />
-      ) : (
-        <>
-          <Film size={25} aria-hidden="true" />
-          <span className="sr-only">Poster unavailable</span>
-        </>
-      )}
-    </div>
-  );
-}
 
 export function ReleaseCalendar({ active }: { active: boolean }) {
   const [month, setMonth] = useState(currentUkMonth);
@@ -295,60 +271,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                     </div>
                     <div className="film-grid">
                       {films.map((film) => (
-                        <article
-                          className="film-card"
-                          key={film.id}
-                          aria-labelledby={`film-${film.id}`}
-                        >
-                          <Poster
-                            key={`${film.id}-${film.posterPath}`}
-                            film={film}
-                          />
-                          <div className="film-info">
-                            <p className="film-category">
-                              {film.isRevival
-                                ? "BACK ON THE BIG SCREEN"
-                                : "UK CINEMA RELEASE"}
-                            </p>
-                            <h4 id={`film-${film.id}`}>{film.title}</h4>
-                            <p className="film-release">
-                              {film.isRevival
-                                ? "Theatrical revival"
-                                : "In cinemas"}{" "}
-                              · {past ? "Released" : dateLabel(date)}
-                            </p>
-                            <div className="film-links">
-                              {film.imdbId ? (
-                                <a
-                                  href={`https://www.imdb.com/title/${film.imdbId}/`}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  aria-label={`${film.title} on IMDb (opens in a new tab)`}
-                                >
-                                  IMDb{" "}
-                                  <ExternalLink size={13} aria-hidden="true" />
-                                </a>
-                              ) : (
-                                <span
-                                  className="film-link-unavailable"
-                                  aria-label={`IMDb page unavailable for ${film.title}`}
-                                  title="IMDb page unavailable"
-                                >
-                                  IMDb
-                                </span>
-                              )}
-                              <a
-                                href={`https://letterboxd.com/tmdb/${film.tmdbId}/`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                aria-label={`${film.title} on Letterboxd (opens in a new tab)`}
-                              >
-                                Letterboxd{" "}
-                                <ExternalLink size={13} aria-hidden="true" />
-                              </a>
-                            </div>
-                          </div>
-                        </article>
+                        <FilmCard key={film.id} film={film} past={past} />
                       ))}
                     </div>
                   </section>

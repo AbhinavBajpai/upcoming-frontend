@@ -64,6 +64,47 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
   await expect(
     page.getByRole("link", { name: "Account", exact: true }),
   ).toBeVisible();
+  await page
+    .getByRole("button", {
+      name: "Want to watch Browser Test Feature",
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByRole("button", {
+      name: "On your watchlist: Browser Test Feature (remove)",
+      exact: true,
+    }),
+  ).toBeEnabled();
+  await page.getByRole("link", { name: "Watch list", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Browser Test Feature", exact: true }),
+  ).toBeVisible();
+  await page.reload();
+  await expect(
+    page.getByRole("button", {
+      name: "On your watchlist: Browser Test Feature (remove)",
+      exact: true,
+    }),
+  ).toBeEnabled();
+  await page.screenshot({
+    path: info.outputPath("starred.png"),
+    fullPage: true,
+  });
+  await page
+    .getByRole("button", {
+      name: "On your watchlist: Browser Test Feature (remove)",
+      exact: true,
+    })
+    .click();
+  await expect(page.getByText("0 films on your list")).toBeVisible();
+  await page.getByRole("link", { name: "Releases", exact: true }).click();
+  await expect(
+    page.getByRole("button", {
+      name: "Want to watch Browser Test Feature",
+      exact: true,
+    }),
+  ).toBeEnabled();
   await page.getByRole("link", { name: "Account", exact: true }).click();
   await expect(page.getByLabel("Display name", { exact: true })).toHaveValue(
     "Cinema Friend",

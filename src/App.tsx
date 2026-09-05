@@ -1,3 +1,6 @@
+import { StarProvider } from "./stars/StarProvider";
+import { StarredPage } from "./stars/StarredPage";
+import { StarNotice } from "./stars/StarNotice";
 import { useEffect, useRef } from "react";
 import {
   Link,
@@ -23,7 +26,7 @@ import { ReleaseCalendar } from "./calendar/ReleaseCalendar";
 
 const pages = [
   { to: "/releases", label: "Releases", icon: CalendarDays },
-  { to: "/starred", label: "Starred", icon: Star },
+  { to: "/starred", label: "Watch list", icon: Star },
   { to: "/friends", label: "Friends", icon: Users },
 ];
 
@@ -90,31 +93,21 @@ function Releases({ active }: { active: boolean }) {
   );
 }
 
-function PersonalPage({ kind }: { kind: "starred" | "friends" }) {
-  const starred = kind === "starred";
-  const Icon = starred ? Star : Users;
+function FriendsPage() {
   return (
-    <section className="personal-page" aria-labelledby="page-title">
-      <p className="eyebrow">
-        {starred ? "YOUR NEXT GREAT WATCH" : "BETTER IN GOOD COMPANY"}
-      </p>
-      <h1 id="page-title">
-        {starred ? "Worth the " : "Bring your "}
-        <em>{starred ? "wait." : "people."}</em>
+    <section className="personal-page" aria-labelledby="friends-title">
+      <p className="eyebrow">BETTER IN GOOD COMPANY</p>
+      <h1 id="friends-title">
+        Bring your <em>people.</em>
       </h1>
       <div className="empty-state">
         <div className="empty-icon">
-          <Icon size={28} strokeWidth={1.5} />
+          <Users size={28} strokeWidth={1.5} />
         </div>
-        <h2>
-          {starred
-            ? "A place for your must-sees."
-            : "Cinema is better together."}
-        </h2>
+        <h2>Cinema is better together.</h2>
         <p>
-          {starred
-            ? "Soon you’ll be able to save the films you’re looking forward to and find them here."
-            : "Friend connections are coming soon. You’ll be able to see the films you both want to watch."}
+          Friend connections are coming soon. You’ll be able to see the films
+          you both want to watch.
         </p>
         <Link className="text-link" to="/releases">
           Back to releases <ArrowUpRight size={17} />
@@ -127,7 +120,9 @@ function PersonalPage({ kind }: { kind: "starred" | "friends" }) {
 export function App() {
   return (
     <AccountProvider>
-      <AppContent />
+      <StarProvider>
+        <AppContent />
+      </StarProvider>
     </AccountProvider>
   );
 }
@@ -150,7 +145,8 @@ function AppContent() {
     document.title = `${page?.label ?? "Upcoming"} · Upcoming`;
     if (previousPath.current !== location.pathname) {
       mainRef.current?.focus({ preventScroll: true });
-      if (isAccountPage) window.scrollTo({ top: 0, behavior: "instant" });
+      if (location.pathname !== "/releases" && location.pathname !== "/")
+        window.scrollTo({ top: 0, behavior: "instant" });
       previousPath.current = location.pathname;
     }
   }, [location.pathname, isAccountPage]);
@@ -181,6 +177,7 @@ function AppContent() {
         </div>
       </header>
       <main id="main-content" ref={mainRef} tabIndex={-1}>
+        {!isAccountPage && <StarNotice />}
         <div
           hidden={
             location.pathname !== "/" && location.pathname !== "/releases"
@@ -211,8 +208,8 @@ function AppContent() {
               element={<AccountPage key={mode} mode={mode} />}
             />
           ))}
-          <Route path="/starred" element={<PersonalPage kind="starred" />} />
-          <Route path="/friends" element={<PersonalPage kind="friends" />} />
+          <Route path="/starred" element={<StarredPage />} />
+          <Route path="/friends" element={<FriendsPage />} />
           <Route
             path="*"
             element={

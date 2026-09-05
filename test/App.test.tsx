@@ -17,7 +17,7 @@ describe("application navigation", () => {
       "aria-current",
       "page",
     );
-    expect(screen.getByRole("link", { name: "Starred" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Watch list" })).toBeVisible();
     expect(screen.getByRole("link", { name: "Friends" })).toBeVisible();
   });
   it("navigates to friends and moves focus to the new content", () => {
