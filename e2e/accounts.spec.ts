@@ -104,8 +104,11 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
   ).toBeVisible();
   await page.getByRole("link", { name: "Account", exact: true }).click();
   await page.getByRole("button", { name: "Sign out", exact: true }).click();
+  await expect(page).toHaveURL(/\/releases$/);
   await expect(
-    page.getByRole("link", { name: "Sign in", exact: true }),
+    page
+      .getByRole("banner")
+      .getByRole("link", { name: "Sign in", exact: true }),
   ).toBeVisible();
   expect(
     await page.evaluate(
