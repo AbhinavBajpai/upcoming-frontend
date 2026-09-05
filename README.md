@@ -85,3 +85,22 @@ catalogue as the release calendar, so postponements do not remove stars.
 Browser CI covers real account creation and star persistence using PostgreSQL,
 Mailpit, and a fictional catalogue fixture in `upcoming_test`. Mocked browser
 scenarios additionally exercise request failure and all three list sections.
+
+The Friends tab supports profile-link sharing, incoming/sent requests and accepted
+connections. `/friends/<userId>` opens a profile and preserves that route through
+sign-in. Only an accepted friend's profile loads their watch list; buttons on
+that list add/remove films from **your own** watch list.
+
+Friend data is scoped to the current account and profile. Navigation, refocusing
+the browser and permission refreshes reload it; hiding the tab clears displayed
+friend data. Failed or unauthorized reads never fall back to a cached private
+list. Actions refresh the server state, including crossed requests and conflicts.
+Removing a friend requires an inline confirmation explaining that access ends in
+both directions.
+
+To test UP-10 and UP-11 together, use backend branch `feat/mutual-friendships`
+and frontend branch `feat/friends-screens`, then rebuild Compose from the backend.
+Use two verified accounts in separate browser profiles (or a private window).
+Open Friends, copy one account's profile link, open it as the other account and
+send a request. Accept it in the first account, view each other's lists, then
+remove the connection and revisit the profile to check access is gone.

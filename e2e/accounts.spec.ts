@@ -41,7 +41,12 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
 }, info) => {
   const email = `browser-${info.project.name}-${Date.now()}@example.test`;
   const password = "a-long-browser-password";
-  await page.goto("/signup");
+  // The shared profile route must survive a new account's email verification.
+  await page.goto("/friends/registration-link-test");
+  await page.getByRole("link", { name: "Sign in to connect" }).click();
+  await page
+    .getByRole("link", { name: "Create an account", exact: true })
+    .click();
   await page.getByLabel("Display name", { exact: true }).fill("Cinema Friend");
   await page.getByLabel("Email", { exact: true }).fill(email);
   await page.getByLabel("Password", { exact: true }).fill(password);
@@ -64,6 +69,10 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
   await expect(
     page.getByRole("link", { name: "Account", exact: true }),
   ).toBeVisible();
+  await expect(page).toHaveURL(/\/friends\/registration-link-test$/);
+  await page
+    .getByRole("link", { name: "Back to releases", exact: true })
+    .click();
   await page
     .getByRole("button", {
       name: "Want to watch Browser Test Feature",

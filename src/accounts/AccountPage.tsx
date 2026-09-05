@@ -32,6 +32,9 @@ export function AccountPage({ mode }: { mode: Mode }) {
     [notice, setNotice] = useState("");
   const query = new URLSearchParams(location.search);
   const next = returnPath(query.get("returnTo"));
+  const authLink = (path: string) =>
+    `${path}?returnTo=${encodeURIComponent(next)}`;
+  const verificationReturn = `/login?verified=1&returnTo=${encodeURIComponent(next)}`;
   const [token] = useState(query.get("token") ?? "");
   useEffect(() => {
     if (mode === "reset-password" && location.search)
@@ -74,11 +77,11 @@ export function AccountPage({ mode }: { mode: Mode }) {
             name: name ?? "",
             email,
             password,
-            callbackURL: "/login?verified=1",
+            callbackURL: verificationReturn,
           }),
         () => {
           setPassword("");
-          navigate("/verify-email", { state: { email } });
+          navigate(authLink("/verify-email"), { state: { email } });
         },
         "We couldn’t create the account. Check your details and try again.",
       );
@@ -97,7 +100,7 @@ export function AccountPage({ mode }: { mode: Mode }) {
         () =>
           authClient.sendVerificationEmail({
             email,
-            callbackURL: "/login?verified=1",
+            callbackURL: verificationReturn,
           }),
         () =>
           setNotice(
@@ -186,7 +189,7 @@ export function AccountPage({ mode }: { mode: Mode }) {
       {query.has("error") && mode === "login" && (
         <p role="alert" className="account-error">
           The verification link is invalid or expired.{" "}
-          <Link to="/verify-email">Request another</Link>.
+          <Link to={authLink("/verify-email")}>Request another</Link>.
         </p>
       )}
       {error && (
@@ -282,13 +285,13 @@ export function AccountPage({ mode }: { mode: Mode }) {
       {mode === "login" && (
         <div className="account-help">
           <Link to="/forgot-password">Forgot password?</Link>
-          <Link to="/verify-email">Verify your email</Link>
-          <Link to="/signup">Create an account</Link>
+          <Link to={authLink("/verify-email")}>Verify your email</Link>
+          <Link to={authLink("/signup")}>Create an account</Link>
         </div>
       )}
       {mode !== "login" && mode !== "account" && (
         <p className="account-help">
-          <Link to="/login">Back to sign in</Link>
+          <Link to={authLink("/login")}>Back to sign in</Link>
         </p>
       )}
       {mode === "account" && (

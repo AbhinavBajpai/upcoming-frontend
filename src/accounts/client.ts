@@ -43,7 +43,9 @@ export const authClient = {
   revokeOtherSessions: () => post("revoke-other-sessions"),
 };
 export function returnPath(value: string | null): string {
-  return value && ["/releases", "/starred", "/friends"].includes(value)
+  return value &&
+    (["/releases", "/starred", "/friends"].includes(value) ||
+      /^\/friends\/[a-zA-Z0-9_-]{1,128}$/.test(value))
     ? value
     : "/releases";
 }

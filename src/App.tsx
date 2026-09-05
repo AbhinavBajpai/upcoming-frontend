@@ -1,3 +1,4 @@
+import { FriendsPage } from "./friends/FriendsPage";
 import { StarProvider } from "./stars/StarProvider";
 import { StarredPage } from "./stars/StarredPage";
 import { StarNotice } from "./stars/StarNotice";
@@ -93,30 +94,6 @@ function Releases({ active }: { active: boolean }) {
   );
 }
 
-function FriendsPage() {
-  return (
-    <section className="personal-page" aria-labelledby="friends-title">
-      <p className="eyebrow">BETTER IN GOOD COMPANY</p>
-      <h1 id="friends-title">
-        Bring your <em>people.</em>
-      </h1>
-      <div className="empty-state">
-        <div className="empty-icon">
-          <Users size={28} strokeWidth={1.5} />
-        </div>
-        <h2>Cinema is better together.</h2>
-        <p>
-          Friend connections are coming soon. You’ll be able to see the films
-          you both want to watch.
-        </p>
-        <Link className="text-link" to="/releases">
-          Back to releases <ArrowUpRight size={17} />
-        </Link>
-      </div>
-    </section>
-  );
-}
-
 export function App() {
   return (
     <AccountProvider>
@@ -141,7 +118,11 @@ function AppContent() {
   const mainRef = useRef<HTMLElement>(null);
   const previousPath = useRef(location.pathname);
   useEffect(() => {
-    const page = pages.find((p) => p.to === location.pathname);
+    const page = pages.find(
+      (p) =>
+        p.to === location.pathname ||
+        (p.to === "/friends" && location.pathname.startsWith("/friends/")),
+    );
     document.title = `${page?.label ?? "Upcoming"} · Upcoming`;
     if (previousPath.current !== location.pathname) {
       mainRef.current?.focus({ preventScroll: true });
@@ -210,6 +191,7 @@ function AppContent() {
           ))}
           <Route path="/starred" element={<StarredPage />} />
           <Route path="/friends" element={<FriendsPage />} />
+          <Route path="/friends/:userId" element={<FriendsPage />} />
           <Route
             path="*"
             element={
