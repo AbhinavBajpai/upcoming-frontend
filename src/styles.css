@@ -949,3 +949,80 @@ footer {
     margin-top: 35px;
   }
 }
+
+.film-save-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid #9cae99;
+  border-radius: 6px;
+  background: #fffefa;
+  color: #245544;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.film-save-button.is-starred {
+  background: #e7eddc;
+  color: #315427;
+  border-color: #6c855f;
+}
+.film-save-button:hover {
+  background: #e7eddc;
+}
+.film-save-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.star-notice {
+  position: sticky;
+  top: 100px;
+  z-index: 9;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #fff1ed;
+  border: 1px solid #bc6f58;
+  border-radius: 6px;
+  color: #742828;
+  margin-top: 16px;
+}
+.star-notice button {
+  padding: 8px 12px;
+  background: #fffefa;
+  color: #742828;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.starred-page {
+  padding: 55px 0 70px;
+}
+.starred-page h1 {
+  font-size: clamp(38px, 6vw, 64px);
+  margin: 16px 0 24px;
+  line-height: 1.1;
+  letter-spacing: -2px;
+}
+.starred-page h1 em {
+  font-family: Georgia, serif;
+  font-weight: 400;
+  color: #28684f;
+}
+.starred-section {
+  margin: 35px 0;
+}
+.starred-section h2 {
+  font-size: 20px;
+}
+@media (max-width: 650px) {
+  .star-notice {
+    top: 120px;
+  }
+}
