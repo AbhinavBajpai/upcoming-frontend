@@ -7,6 +7,7 @@ export default tseslint.config(
   {
     ignores: [
       "dist/**",
+      ".e2e-backend/**",
       "coverage/**",
       "node_modules/**",
       "playwright-report/**",

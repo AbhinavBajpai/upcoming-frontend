@@ -16,6 +16,9 @@ import {
   Users,
 } from "lucide-react";
 
+import { AccountProvider } from "./accounts/AccountProvider";
+import { AccountPage } from "./accounts/AccountPage";
+import { useAccount } from "./accounts/context";
 import { ReleaseCalendar } from "./calendar/ReleaseCalendar";
 
 const pages = [
@@ -122,7 +125,24 @@ function PersonalPage({ kind }: { kind: "starred" | "friends" }) {
 }
 
 export function App() {
+  return (
+    <AccountProvider>
+      <AppContent />
+    </AccountProvider>
+  );
+}
+
+function AppContent() {
+  const { user } = useAccount();
   const location = useLocation();
+  const isAccountPage = [
+    "/login",
+    "/signup",
+    "/verify-email",
+    "/forgot-password",
+    "/reset-password",
+    "/account",
+  ].includes(location.pathname);
   const mainRef = useRef<HTMLElement>(null);
   const previousPath = useRef(location.pathname);
   useEffect(() => {
@@ -154,9 +174,9 @@ export function App() {
               </NavLink>
             ))}
           </nav>
-          <span className="edition">
-            THE UK EDITION <span />
-          </span>
+          <Link className="account-nav" to={user ? "/account" : "/login"}>
+            {user ? "Account" : "Sign in"}
+          </Link>
         </div>
       </header>
       <main id="main-content" ref={mainRef} tabIndex={-1}>
@@ -174,6 +194,27 @@ export function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/releases" replace />} />
           <Route path="/releases" element={null} />
+          {(
+            [
+              "login",
+              "signup",
+              "verify-email",
+              "forgot-password",
+              "reset-password",
+              "account",
+            ] as const
+          ).map((mode) => (
+            <Route
+              key={mode}
+              path={`/${mode}`}
+              element={
+                <AccountPage
+                  key={`${mode}-${user?.id ?? "anonymous"}`}
+                  mode={mode}
+                />
+              }
+            />
+          ))}
           <Route path="/starred" element={<PersonalPage kind="starred" />} />
           <Route path="/friends" element={<PersonalPage kind="friends" />} />
           <Route
@@ -201,12 +242,16 @@ export function App() {
         </div>
         <section className="credits" aria-label="About and credits">
           <a href="https://www.themoviedb.org" aria-label="The Movie Database">
-            <img
-              width="110"
-              height="15"
-              alt="TMDB"
-              src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
-            />
+            {isAccountPage ? (
+              "TMDB"
+            ) : (
+              <img
+                width="110"
+                height="15"
+                alt="TMDB"
+                src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+              />
+            )}
           </a>
           <p>
             This product uses the TMDB API but is not endorsed or certified by
