@@ -65,6 +65,7 @@ export function StarredPage() {
                     <FilmCard
                       key={film.id}
                       film={film}
+                      showYear
                       past={section === "released"}
                     />
                   ))}

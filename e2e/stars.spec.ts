@@ -71,6 +71,7 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
   await expect(
     page.getByRole("heading", { name: "Date to be confirmed", exact: true }),
   ).toBeVisible();
+  await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
   await page.screenshot({
     path: info.outputPath("starred-sections.png"),
     fullPage: true,

@@ -145,7 +145,8 @@ function AppContent() {
     document.title = `${page?.label ?? "Upcoming"} · Upcoming`;
     if (previousPath.current !== location.pathname) {
       mainRef.current?.focus({ preventScroll: true });
-      if (isAccountPage) window.scrollTo({ top: 0, behavior: "instant" });
+      if (location.pathname !== "/releases" && location.pathname !== "/")
+        window.scrollTo({ top: 0, behavior: "instant" });
       previousPath.current = location.pathname;
     }
   }, [location.pathname, isAccountPage]);
