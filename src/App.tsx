@@ -11,11 +11,12 @@ import {
   ArrowUpRight,
   CalendarDays,
   Film,
-  MapPin,
   Sparkles,
   Star,
   Users,
 } from "lucide-react";
+
+import { ReleaseCalendar } from "./calendar/ReleaseCalendar";
 
 const pages = [
   { to: "/releases", label: "Releases", icon: CalendarDays },
@@ -23,12 +24,7 @@ const pages = [
   { to: "/friends", label: "Friends", icon: Users },
 ];
 
-function Releases() {
-  const month = new Intl.DateTimeFormat("en-GB", {
-    timeZone: "Europe/London",
-    month: "long",
-    year: "numeric",
-  }).format(new Date());
+function Releases({ active }: { active: boolean }) {
   return (
     <>
       <section className="intro" aria-labelledby="page-title">
@@ -63,29 +59,7 @@ function Releases() {
           </div>
         </div>
       </section>
-      <section className="calendar" aria-labelledby="calendar-title">
-        <div className="section-heading">
-          <div>
-            <p className="eyebrow">IN UK CINEMAS</p>
-            <h2 id="calendar-title">{month}</h2>
-          </div>
-          <span className="country">
-            <MapPin size={15} /> United Kingdom
-          </span>
-        </div>
-        <div className="empty-state">
-          <div className="empty-icon">
-            <CalendarDays size={28} strokeWidth={1.5} />
-          </div>
-          <h3>The next showing starts here.</h3>
-          <p>
-            We’re putting the calendar together.
-            <br />
-            Come back soon to see what’s on its way.
-          </p>
-          <span className="small-note">A home for your next cinema night</span>
-        </div>
-      </section>
+      <ReleaseCalendar active={active} />
       <div className="how-it-works" aria-label="What you can look forward to">
         <div>
           <span className="step">01</span>
@@ -155,7 +129,7 @@ export function App() {
     const page = pages.find((p) => p.to === location.pathname);
     document.title = `${page?.label ?? "Upcoming"} · Upcoming`;
     if (previousPath.current !== location.pathname) {
-      mainRef.current?.focus();
+      mainRef.current?.focus({ preventScroll: true });
       previousPath.current = location.pathname;
     }
   }, [location.pathname]);
@@ -186,9 +160,20 @@ export function App() {
         </div>
       </header>
       <main id="main-content" ref={mainRef} tabIndex={-1}>
+        <div
+          hidden={
+            location.pathname !== "/" && location.pathname !== "/releases"
+          }
+        >
+          <Releases
+            active={
+              location.pathname === "/" || location.pathname === "/releases"
+            }
+          />
+        </div>
         <Routes>
           <Route path="/" element={<Navigate to="/releases" replace />} />
-          <Route path="/releases" element={<Releases />} />
+          <Route path="/releases" element={null} />
           <Route path="/starred" element={<PersonalPage kind="starred" />} />
           <Route path="/friends" element={<PersonalPage kind="friends" />} />
           <Route
@@ -208,10 +193,26 @@ export function App() {
         </Routes>
       </main>
       <footer>
-        <span>Less scrolling. More cinema.</span>
-        <span>
-          Made for the love of film <Film size={14} />
-        </span>
+        <div className="footer-top">
+          <span>Less scrolling. More cinema.</span>
+          <span>
+            Made for the love of film <Film size={14} />
+          </span>
+        </div>
+        <section className="credits" aria-label="About and credits">
+          <a href="https://www.themoviedb.org" aria-label="The Movie Database">
+            <img
+              width="110"
+              height="15"
+              alt="TMDB"
+              src="https://www.themoviedb.org/assets/2/v4/logos/v2/blue_long_2-9665a76b1ae401a510ec1e0ca40ddcb3b0cfe45f1d51b77a308fea0845885648.svg"
+            />
+          </a>
+          <p>
+            This product uses the TMDB API but is not endorsed or certified by
+            TMDB.
+          </p>
+        </section>
       </footer>
     </>
   );
