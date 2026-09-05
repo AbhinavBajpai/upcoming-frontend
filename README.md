@@ -1,6 +1,6 @@
 # Upcoming frontend
 
-Responsive React + TypeScript app, built with Vite. Releases, Starred and Friends have accessible client-side routes, keyboard focus handling and mobile layouts. The release calendar loads live catalogue data from the backend. Account and social actions remain coming-soon states.
+Responsive React + TypeScript app, built with Vite. Releases, Starred and Friends have accessible client-side routes, keyboard focus handling and mobile layouts. The release calendar loads live catalogue data from the backend. Email/password accounts are available; stars and friendships remain subsequent features.
 
 ## Run the app with Docker
 
