@@ -1229,3 +1229,55 @@ footer {
     padding-top: 35px;
   }
 }
+
+.friend-interest {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 14px;
+  color: #42623e;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.friend-interest > svg {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 3px;
+}
+.friend-interest p {
+  margin: 0;
+}
+.friend-interest a {
+  color: #245544;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.friend-interest details {
+  min-width: 0;
+}
+.friend-interest summary {
+  cursor: pointer;
+  min-height: 32px;
+}
+.friend-interest ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+.friend-interest summary:focus-visible {
+  outline: 3px solid #ad681c;
+  outline-offset: 3px;
+}
+.interest-error {
+  font-size: 13px;
+  color: #637164;
+  line-height: 1.6;
+}
+.interest-error button {
+  border: 0;
+  background: none;
+  color: #245544;
+  padding: 8px;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}

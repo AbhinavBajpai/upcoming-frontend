@@ -1,3 +1,4 @@
+import { socialChanges } from "../interest/events";
 import {
   readView,
   changeFriend,
@@ -79,6 +80,7 @@ export function createFriendState(target?: string) {
     },
     async change(path: string, message: string) {
       if (snapshot.pending || !active) return;
+      const finishSocialChange = socialChanges.begin();
       clear();
       update({ pending: true, message: null, error: null });
       let errorMessage: string | null = null;
@@ -94,6 +96,7 @@ export function createFriendState(target?: string) {
             ? "That connection has changed. We’ve refreshed its status; please try again."
             : "We couldn’t save that change. Please try again.";
       }
+      finishSocialChange();
       if (!active) return;
       update({ pending: false });
       if (!snapshot.signedOut) await load();

@@ -104,3 +104,15 @@ Use two verified accounts in separate browser profiles (or a private window).
 Open Friends, copy one account's profile link, open it as the other account and
 send a request. Accept it in the first account, view each other's lists, then
 remove the connection and revisit the profile to check access is gone.
+
+Film cards now show which of **your accepted friends** want to watch a film, on
+Releases, your watch list and friend watch lists. One or two names appear directly;
+larger groups use a keyboard-accessible disclosure listing every name. Names link
+to the respective friend profiles.
+
+Each active list requests interest in batches of at most 100 unique film IDs,
+never one request per card. Data is isolated by signed-in account and list, cleared
+on blur/refresh, and invalidated around star and friendship changes. Failed or
+unauthorized batches never leave old names visible; a list-level retry is available.
+Changes made in another browser session become visible when you return focus to
+the app or revisit the list.

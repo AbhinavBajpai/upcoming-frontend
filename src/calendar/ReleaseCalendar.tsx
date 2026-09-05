@@ -1,3 +1,4 @@
+import { InterestProvider } from "../interest/InterestProvider";
 import { FilmCard } from "../components/FilmCard";
 import { useEffect, useRef, useState } from "react";
 import {
@@ -115,172 +116,178 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
     setAttempt((value) => value + 1);
   }
   return (
-    <section
-      ref={calendarRef}
-      className="calendar"
-      aria-labelledby="calendar-title"
-    >
-      <div className="section-heading">
-        <div>
-          <p className="eyebrow">IN UK CINEMAS</p>
-          <h2 id="calendar-title">{monthLabel(month)}</h2>
+    <InterestProvider filmIds={visible.map((f) => f.id)} active={active}>
+      <section
+        ref={calendarRef}
+        className="calendar"
+        aria-labelledby="calendar-title"
+      >
+        <div className="section-heading">
+          <div>
+            <p className="eyebrow">IN UK CINEMAS</p>
+            <h2 id="calendar-title">{monthLabel(month)}</h2>
+          </div>
+          <span className="country">
+            <MapPin size={15} aria-hidden="true" /> United Kingdom
+          </span>
         </div>
-        <span className="country">
-          <MapPin size={15} aria-hidden="true" /> United Kingdom
-        </span>
-      </div>
-      <div className="calendar-toolbar">
-        <div className="month-controls" aria-label="Choose a month">
-          <button
-            type="button"
-            className="icon-button"
-            aria-label="Previous month"
-            disabled={!range || month <= range.from || loading}
-            onClick={() => changeMonth(offsetMonth(month, -1))}
-          >
-            <ChevronLeft size={20} />
-          </button>
-          <button
-            type="button"
-            className="month-today"
-            disabled={month === currentMonth}
-            onClick={() => changeMonth(currentMonth)}
-          >
-            This month
-          </button>
-          <button
-            type="button"
-            className="icon-button"
-            aria-label="Next month"
-            disabled={!range || month >= range.to || loading}
-            onClick={() => changeMonth(offsetMonth(month, 1))}
-          >
-            <ChevronRight size={20} />
-          </button>
-        </div>
-        <div className="title-filter">
-          <Search size={17} aria-hidden="true" />
-          <label className="sr-only" htmlFor="film-filter">
-            Filter titles for this month
-          </label>
-          <input
-            id="film-filter"
-            type="search"
-            placeholder="Find a film this month…"
-            value={filter}
-            onChange={(event) => setFilter(event.target.value)}
-          />
-          {filter && (
+        <div className="calendar-toolbar">
+          <div className="month-controls" aria-label="Choose a month">
             <button
               type="button"
-              className="clear-filter"
-              aria-label="Clear title filter"
-              onClick={() => setFilter("")}
+              className="icon-button"
+              aria-label="Previous month"
+              disabled={!range || month <= range.from || loading}
+              onClick={() => changeMonth(offsetMonth(month, -1))}
             >
-              <X size={17} />
+              <ChevronLeft size={20} />
             </button>
-          )}
-        </div>
-      </div>
-      {loading && (
-        <div className="calendar-loading" role="status">
-          <span className="loading-dot" /> Loading this month’s films…
-        </div>
-      )}
-      {failed && (
-        <div className="empty-state" role="alert">
-          <h3>We couldn’t load the calendar.</h3>
-          <p>Please try again in a moment.</p>
-          <button type="button" className="action-button" onClick={retry}>
-            Try again
-          </button>
-        </div>
-      )}
-      {data && (
-        <>
-          <p className="calendar-summary" role="status">
-            {visible.length} {visible.length === 1 ? "film" : "films"}
-            {filter ? " matching your search" : " on the calendar"}
-            {data.lastSuccessfulSync && (
-              <span>
-                Updated{" "}
-                {new Intl.DateTimeFormat("en-GB", {
-                  timeZone: "Europe/London",
-                  day: "numeric",
-                  month: "short",
-                }).format(new Date(data.lastSuccessfulSync))}
-              </span>
+            <button
+              type="button"
+              className="month-today"
+              disabled={month === currentMonth}
+              onClick={() => changeMonth(currentMonth)}
+            >
+              This month
+            </button>
+            <button
+              type="button"
+              className="icon-button"
+              aria-label="Next month"
+              disabled={!range || month >= range.to || loading}
+              onClick={() => changeMonth(offsetMonth(month, 1))}
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+          <div className="title-filter">
+            <Search size={17} aria-hidden="true" />
+            <label className="sr-only" htmlFor="film-filter">
+              Filter titles for this month
+            </label>
+            <input
+              id="film-filter"
+              type="search"
+              placeholder="Find a film this month…"
+              value={filter}
+              onChange={(event) => setFilter(event.target.value)}
+            />
+            {filter && (
+              <button
+                type="button"
+                className="clear-filter"
+                aria-label="Clear title filter"
+                onClick={() => setFilter("")}
+              >
+                <X size={17} />
+              </button>
             )}
-          </p>
-          {!data.monthSynced && (
-            <p className="calendar-notice">
-              We’re still gathering release dates for this month. Check back
-              soon.
-            </p>
-          )}
-          {visible.length === 0 ? (
-            <div className="empty-state">
-              <div className="empty-icon">
-                <CalendarDays size={28} strokeWidth={1.5} aria-hidden="true" />
-              </div>
-              <h3>
-                {filter
-                  ? "No titles match your search."
-                  : data.monthSynced
-                    ? "No releases listed for this month."
-                    : "Good films are on their way."}
-              </h3>
-              <p>
-                {filter
-                  ? "Try a different title, or clear the filter."
-                  : "You can explore another month while we keep an eye on what’s coming."}
-              </p>
-              {filter && (
-                <button
-                  type="button"
-                  className="action-button"
-                  onClick={() => setFilter("")}
-                >
-                  Show all films
-                </button>
+          </div>
+        </div>
+        {loading && (
+          <div className="calendar-loading" role="status">
+            <span className="loading-dot" /> Loading this month’s films…
+          </div>
+        )}
+        {failed && (
+          <div className="empty-state" role="alert">
+            <h3>We couldn’t load the calendar.</h3>
+            <p>Please try again in a moment.</p>
+            <button type="button" className="action-button" onClick={retry}>
+              Try again
+            </button>
+          </div>
+        )}
+        {data && (
+          <>
+            <p className="calendar-summary" role="status">
+              {visible.length} {visible.length === 1 ? "film" : "films"}
+              {filter ? " matching your search" : " on the calendar"}
+              {data.lastSuccessfulSync && (
+                <span>
+                  Updated{" "}
+                  {new Intl.DateTimeFormat("en-GB", {
+                    timeZone: "Europe/London",
+                    day: "numeric",
+                    month: "short",
+                  }).format(new Date(data.lastSuccessfulSync))}
+                </span>
               )}
-            </div>
-          ) : (
-            <div className="release-groups">
-              {[...groups].map(([date, films]) => {
-                const past = date < data.today;
-                return (
-                  <section
-                    className={`release-day${past ? " release-day-past" : ""}`}
-                    key={date}
-                    ref={date === nextDate ? nextDateRef : undefined}
-                    aria-labelledby={`date-${date}`}
-                    data-release-date={date}
+            </p>
+            {!data.monthSynced && (
+              <p className="calendar-notice">
+                We’re still gathering release dates for this month. Check back
+                soon.
+              </p>
+            )}
+            {visible.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">
+                  <CalendarDays
+                    size={28}
+                    strokeWidth={1.5}
+                    aria-hidden="true"
+                  />
+                </div>
+                <h3>
+                  {filter
+                    ? "No titles match your search."
+                    : data.monthSynced
+                      ? "No releases listed for this month."
+                      : "Good films are on their way."}
+                </h3>
+                <p>
+                  {filter
+                    ? "Try a different title, or clear the filter."
+                    : "You can explore another month while we keep an eye on what’s coming."}
+                </p>
+                {filter && (
+                  <button
+                    type="button"
+                    className="action-button"
+                    onClick={() => setFilter("")}
                   >
-                    <div className="date-heading">
-                      <h3 id={`date-${date}`}>
-                        <time dateTime={date}>{dateLabel(date)}</time>
-                      </h3>
-                      <span>
-                        {date === data.today
-                          ? "Today"
-                          : past
-                            ? "Released"
-                            : `${films.length} ${films.length === 1 ? "film" : "films"}`}
-                      </span>
-                    </div>
-                    <div className="film-grid">
-                      {films.map((film) => (
-                        <FilmCard key={film.id} film={film} past={past} />
-                      ))}
-                    </div>
-                  </section>
-                );
-              })}
-            </div>
-          )}
-        </>
-      )}
-    </section>
+                    Show all films
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="release-groups">
+                {[...groups].map(([date, films]) => {
+                  const past = date < data.today;
+                  return (
+                    <section
+                      className={`release-day${past ? " release-day-past" : ""}`}
+                      key={date}
+                      ref={date === nextDate ? nextDateRef : undefined}
+                      aria-labelledby={`date-${date}`}
+                      data-release-date={date}
+                    >
+                      <div className="date-heading">
+                        <h3 id={`date-${date}`}>
+                          <time dateTime={date}>{dateLabel(date)}</time>
+                        </h3>
+                        <span>
+                          {date === data.today
+                            ? "Today"
+                            : past
+                              ? "Released"
+                              : `${films.length} ${films.length === 1 ? "film" : "films"}`}
+                        </span>
+                      </div>
+                      <div className="film-grid">
+                        {films.map((film) => (
+                          <FilmCard key={film.id} film={film} past={past} />
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
+      </section>
+    </InterestProvider>
   );
 }

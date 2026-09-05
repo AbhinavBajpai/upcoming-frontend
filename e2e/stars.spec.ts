@@ -129,3 +129,14 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
     ),
   ).toBe(true);
 });
+
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/friends/interest?*", (route) => {
+    const ids = new URL(route.request().url()).searchParams
+      .get("filmIds")!
+      .split(",");
+    return route.fulfill({
+      json: { films: ids.map((filmId) => ({ filmId, friends: [] })) },
+    });
+  });
+});
