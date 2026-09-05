@@ -3,6 +3,7 @@ import { Film, ExternalLink } from "lucide-react";
 import { dateLabel } from "../calendar/api";
 import type { Film as FilmData } from "../stars/api";
 import { StarButton } from "../stars/StarButton";
+import { useStars } from "../stars/context";
 function Poster({ film }: { film: FilmData }) {
   const [failed, setFailed] = useState(false);
   const valid = film.posterPath && /^\/[a-zA-Z0-9_.-]+$/.test(film.posterPath);
@@ -37,9 +38,11 @@ export function FilmCard({
   showYear?: boolean;
 }) {
   const headingId = useId();
+  const { films } = useStars();
+  const starred = films.some((entry) => entry.id === film.id);
   return (
     <article
-      className={`film-card${past ? " film-past" : ""}`}
+      className={`film-card${past ? " film-past" : ""}${starred ? " film-card-starred" : ""}`}
       aria-labelledby={headingId}
     >
       <Poster key={`${film.id}-${film.posterPath}`} film={film} />
@@ -59,8 +62,10 @@ export function FilmCard({
             "Date to be confirmed"
           )}
         </p>
-        <div className="film-links">
+        <div className="film-primary-action">
           <StarButton film={film} />
+        </div>
+        <div className="film-links">
           {film.imdbId ? (
             <a
               href={`https://www.imdb.com/title/${film.imdbId}/`}

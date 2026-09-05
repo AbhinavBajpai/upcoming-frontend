@@ -20,7 +20,9 @@ test("signed-out star action offers sign-in and retains the return route", async
     route.fulfill({ status: 401, json: {} }),
   );
   await page.goto("/releases");
-  await page.getByRole("button", { name: "Star Nebula", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Want to watch Nebula", exact: true })
+    .click();
   await expect(page).toHaveURL(/\/login\?returnTo=%2Freleases$/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
@@ -57,10 +59,18 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
     await route.fulfill({ json: { filmId: nebula.id, starred } });
   });
   await page.goto("/releases");
-  await page.getByRole("button", { name: "Star Nebula", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Want to watch Nebula", exact: true })
+    .click();
   await expect(
-    page.getByRole("button", { name: "Unstar Nebula", exact: true }),
+    page.getByRole("button", {
+      name: "On your watchlist: Nebula (remove)",
+      exact: true,
+    }),
   ).toBeEnabled();
+  await expect(
+    page.getByRole("article", { name: "Nebula", exact: true }),
+  ).toHaveClass(/film-card-starred/);
   await page.getByRole("link", { name: "Starred", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Nebula", exact: true }),
@@ -78,28 +88,40 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
   });
   failSave = true;
   await page
-    .getByRole("button", { name: "Unstar Nebula", exact: true })
+    .getByRole("button", {
+      name: "On your watchlist: Nebula (remove)",
+      exact: true,
+    })
     .click();
   await expect(page.getByRole("alert")).toContainText("Nebula");
   await expect(
-    page.getByRole("button", { name: "Unstar Nebula", exact: true }),
+    page.getByRole("button", {
+      name: "On your watchlist: Nebula (remove)",
+      exact: true,
+    }),
   ).toBeEnabled();
   failSave = false;
   await page.getByRole("button", { name: "Refresh stars" }).click();
   await expect(page.getByRole("alert")).toHaveCount(0);
   await page
-    .getByRole("button", { name: "Unstar Nebula", exact: true })
+    .getByRole("button", {
+      name: "On your watchlist: Nebula (remove)",
+      exact: true,
+    })
     .click();
   await expect(
     page.getByRole("heading", { name: "Nebula", exact: true }),
   ).toHaveCount(0);
   await page.getByRole("link", { name: "Releases", exact: true }).click();
   await expect(
-    page.getByRole("button", { name: "Star Nebula", exact: true }),
+    page.getByRole("button", { name: "Want to watch Nebula", exact: true }),
   ).toBeEnabled();
+  await expect(
+    page.getByRole("article", { name: "Nebula", exact: true }),
+  ).not.toHaveClass(/film-card-starred/);
   await page.reload();
   await expect(
-    page.getByRole("button", { name: "Star Nebula", exact: true }),
+    page.getByRole("button", { name: "Want to watch Nebula", exact: true }),
   ).toBeEnabled();
   expect(
     await page.evaluate(

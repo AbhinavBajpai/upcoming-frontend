@@ -35,7 +35,8 @@ export function StarredPage() {
               <Star size={28} aria-hidden="true" />
               <h2>Your next great watch is out there.</h2>
               <p>
-                Star films on the release calendar and you’ll find them here.
+                Choose “Want to watch” on the release calendar and you’ll find
+                your films here.
               </p>
             </div>
           )}

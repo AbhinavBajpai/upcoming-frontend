@@ -695,6 +695,7 @@ input:focus-visible {
   object-fit: cover;
 }
 .film-info {
+  flex: 1;
   min-width: 0;
 }
 .film-category {
@@ -725,6 +726,16 @@ input:focus-visible {
 }
 .release-day-past h4 {
   color: #5e6b60;
+}
+.film-card-starred,
+.release-day-past .film-card-starred {
+  background: #eef3e5;
+  border-color: #71915f;
+  box-shadow: inset 4px 0 0 #547b42;
+}
+.film-card-starred h4,
+.release-day-past .film-card-starred h4 {
+  color: #244a32;
 }
 footer {
   display: block;
@@ -827,6 +838,8 @@ footer {
 }
 
 .film-links {
+  padding-top: 10px;
+  border-top: 1px solid #e3e7dd;
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -950,29 +963,39 @@ footer {
   }
 }
 
+.film-primary-action {
+  margin-top: 16px;
+}
 .film-save-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 6px 10px;
-  border: 1px solid #9cae99;
+  gap: 8px;
+  min-height: 44px;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #174d3d;
   border-radius: 6px;
-  background: #fffefa;
-  color: #245544;
+  background: #174d3d;
+  color: #fffefa;
   font: inherit;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
+}
+.film-save-button svg {
+  flex-shrink: 0;
+}
+.film-save-button:hover {
+  background: #103c2f;
 }
 .film-save-button.is-starred {
   background: #e7eddc;
   color: #315427;
   border-color: #6c855f;
 }
-.film-save-button:hover {
-  background: #e7eddc;
+.film-save-button.is-starred:hover {
+  background: #dce6ce;
 }
 .film-save-button:disabled {
   opacity: 0.65;

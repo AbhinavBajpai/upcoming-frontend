@@ -65,11 +65,14 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
     page.getByRole("link", { name: "Account", exact: true }),
   ).toBeVisible();
   await page
-    .getByRole("button", { name: "Star Browser Test Feature", exact: true })
+    .getByRole("button", {
+      name: "Want to watch Browser Test Feature",
+      exact: true,
+    })
     .click();
   await expect(
     page.getByRole("button", {
-      name: "Unstar Browser Test Feature",
+      name: "On your watchlist: Browser Test Feature (remove)",
       exact: true,
     }),
   ).toBeEnabled();
@@ -80,7 +83,7 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
   await page.reload();
   await expect(
     page.getByRole("button", {
-      name: "Unstar Browser Test Feature",
+      name: "On your watchlist: Browser Test Feature (remove)",
       exact: true,
     }),
   ).toBeEnabled();
@@ -89,13 +92,16 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
     fullPage: true,
   });
   await page
-    .getByRole("button", { name: "Unstar Browser Test Feature", exact: true })
+    .getByRole("button", {
+      name: "On your watchlist: Browser Test Feature (remove)",
+      exact: true,
+    })
     .click();
   await expect(page.getByText("0 films on your list")).toBeVisible();
   await page.getByRole("link", { name: "Releases", exact: true }).click();
   await expect(
     page.getByRole("button", {
-      name: "Star Browser Test Feature",
+      name: "Want to watch Browser Test Feature",
       exact: true,
     }),
   ).toBeEnabled();
