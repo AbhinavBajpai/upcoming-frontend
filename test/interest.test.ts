@@ -123,3 +123,15 @@ it("never publishes partial or malformed batches and can retry", async () => {
     expect(state.getSnapshot().films.film).toHaveLength(1),
   );
 });
+it("discards an entire list if a later batch loses authorization", async () => {
+  const ids = Array.from({ length: 101 }, (_, i) => `film-${i}`);
+  const fetch = vi
+    .fn()
+    .mockResolvedValueOnce(response(ids.slice(0, 100)))
+    .mockResolvedValueOnce(new Response(null, { status: 401 }));
+  vi.stubGlobal("fetch", fetch);
+  const state = start("alice", ids);
+  await vi.waitFor(() => expect(state.getSnapshot().error).toBe(true));
+  expect(state.getSnapshot().films).toEqual({});
+  expect(fetch).toHaveBeenCalledTimes(2);
+});
