@@ -105,6 +105,10 @@ test("calendar screenshot and narrow-layout check", async ({ page }, info) => {
   await expect(
     page.locator('[data-release-date="2026-09-05"]'),
   ).toBeInViewport();
+  await page.screenshot({
+    path: info.outputPath("calendar-films.png"),
+    fullPage: false,
+  });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
     path: info.outputPath("calendar.png"),
