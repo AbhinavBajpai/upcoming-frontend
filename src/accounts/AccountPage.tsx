@@ -24,7 +24,7 @@ export function AccountPage({ mode }: { mode: Mode }) {
   const [email, setEmail] = useState(
     (location.state as { email?: string } | null)?.email ?? "",
   );
-  const [name, setName] = useState(user?.displayName ?? "");
+  const [name, setName] = useState<string | null>(null);
   const [password, setPassword] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [busy, setBusy] = useState(false),
@@ -71,7 +71,7 @@ export function AccountPage({ mode }: { mode: Mode }) {
       void run(
         () =>
           authClient.signUp.email({
-            name,
+            name: name ?? "",
             email,
             password,
             callbackURL: "/login?verified=1",
@@ -121,15 +121,16 @@ export function AccountPage({ mode }: { mode: Mode }) {
     if (mode === "reset-password")
       void run(
         () => authClient.resetPassword({ newPassword: password, token }),
-        () => {
+        async () => {
           setPassword("");
+          await refresh();
           setNotice("Password updated. Please sign in again.");
         },
         "This reset link is invalid or expired. Request a new link.",
       );
     if (mode === "account")
       void run(
-        () => authClient.updateUser({ name }),
+        () => authClient.updateUser({ name: name ?? user?.displayName ?? "" }),
         async () => {
           await refresh();
           setNotice("Display name updated.");
@@ -214,7 +215,10 @@ export function AccountPage({ mode }: { mode: Mode }) {
                   name="name"
                   autoComplete="nickname"
                   maxLength={60}
-                  value={name}
+                  value={
+                    name ??
+                    (mode === "account" ? (user?.displayName ?? "") : "")
+                  }
                   onChange={(e) => setName(e.target.value)}
                 />
               </label>

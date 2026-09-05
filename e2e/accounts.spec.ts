@@ -75,7 +75,7 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
   await expect(page.getByLabel("Display name", { exact: true })).toHaveValue(
     "Film Friend",
   );
-  await page.getByRole("button", { name: "Sign out", exact: true }).click();
+  // Recover while still signed in: loading the profile must not lose the reset token.
   await page.goto("/forgot-password");
   await page.getByLabel("Email", { exact: true }).fill(email);
   await page.getByRole("button", { name: "Send reset link" }).click();
@@ -101,6 +101,11 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
   await page.getByRole("button", { name: "Sign in", exact: true }).click();
   await expect(
     page.getByRole("link", { name: "Account", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("link", { name: "Account", exact: true }).click();
+  await page.getByRole("button", { name: "Sign out", exact: true }).click();
+  await expect(
+    page.getByRole("link", { name: "Sign in", exact: true }),
   ).toBeVisible();
   expect(
     await page.evaluate(

@@ -207,12 +207,7 @@ function AppContent() {
             <Route
               key={mode}
               path={`/${mode}`}
-              element={
-                <AccountPage
-                  key={`${mode}-${user?.id ?? "anonymous"}`}
-                  mode={mode}
-                />
-              }
+              element={<AccountPage key={mode} mode={mode} />}
             />
           ))}
           <Route path="/starred" element={<PersonalPage kind="starred" />} />
