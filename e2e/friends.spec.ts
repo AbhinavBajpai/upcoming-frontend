@@ -94,6 +94,7 @@ test("request actions, failed writes and permission loss clear the displayed fri
   await expect(
     page.getByRole("heading", { name: "A private favourite", exact: true }),
   ).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
     path: info.outputPath("friend-watch-list.png"),
     fullPage: true,
@@ -173,6 +174,7 @@ test("real friends can connect, view lists, save films and disconnect", async ({
         .getByRole("region", { name: "Your friends" })
         .getByRole("link", { name: "Alice", exact: true }),
     ).toBeVisible();
+    await bob.evaluate(() => window.scrollTo(0, 0));
     await bob.screenshot({
       path: info.outputPath("friends.png"),
       fullPage: true,
