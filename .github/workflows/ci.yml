@@ -5,6 +5,23 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: upcoming_test
+          POSTGRES_USER: upcoming
+          POSTGRES_PASSWORD: upcoming_ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U upcoming -d upcoming_test"
+          --health-interval 2s --health-timeout 3s --health-retries 20
+      mailpit:
+        image: axllent/mailpit:v1.31.1
+        ports: ["1025:1025", "8025:8025"]
+    env:
+      DATABASE_URL: postgres://upcoming:upcoming_ci@localhost:5432/upcoming_test
+      E2E_BACKEND_PATH: .e2e-backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -13,6 +30,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run check
+      - uses: actions/checkout@v4
+        with:
+          repository: AbhinavBajpai/upcoming-backend
+          # Pin the backend contract exercised by these browser tests.
+          ref: 38897965e974dfb8274a87d26e93cc1f91fb81c9
+          path: .e2e-backend
+      - run: npm ci && npm run build
+        working-directory: .e2e-backend
       - run: npx playwright install --with-deps chromium
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4

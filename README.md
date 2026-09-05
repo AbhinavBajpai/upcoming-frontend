@@ -1,6 +1,6 @@
 # Upcoming frontend
 
-Responsive React + TypeScript app, built with Vite. Releases, Starred and Friends have accessible client-side routes, keyboard focus handling and mobile layouts. The release calendar loads live catalogue data from the backend. Account and social actions remain coming-soon states.
+Responsive React + TypeScript app, built with Vite. Releases, Starred and Friends have accessible client-side routes, keyboard focus handling and mobile layouts. The release calendar loads live catalogue data from the backend. Email/password accounts are available; stars and friendships remain subsequent features.
 
 ## Run the app with Docker
 
@@ -61,3 +61,13 @@ Months group GB theatrical films by release date, including revivals. The curren
 Browser tests use deterministic API fixtures and deliberately unavailable remote images; they do not require a TMDB token. CI retains desktop/mobile screenshots and failure traces for seven days.
 
 Film cards link to IMDb and Letterboxd in new tabs. IMDb links use IDs stored by the backend sync; after upgrading, rebuild the app and rerun the sync command above to populate them. If no IMDb ID is available, the card shows an unavailable label. Letterboxd uses its [documented TMDB-ID redirect](https://letterboxd.com/about/film-data/) to reach the matching film without guessing a title slug.
+
+## Accounts
+
+Registration, email verification, sign-in, password reset and account settings are available. The account screen lets you update your display name, change password and sign out other sessions. Use the backend accounts branch/version with this frontend.
+
+For local Docker testing, rebuild from the sibling backend and open http://localhost:3000. Captured verification/reset emails appear at http://localhost:8025. Follow the email link before signing in. No real email provider is needed locally; do not publish the mail inbox through the tunnel.
+
+Auth requests use same-origin JSON endpoints; session cookies remain HttpOnly. Reset tokens are removed from the address bar once the form loads, so reloading the form requires reopening the email link. The return route after sign-in is restricted to app tabs. All authentication pages avoid remote attribution images and use the backend's no-referrer policy.
+
+CI also runs the full account lifecycle against a pinned backend commit, PostgreSQL and Mailpit at desktop/mobile sizes. Update the backend revision in `.github/workflows/ci.yml` when intentionally changing the account contract. Locally set `E2E_BACKEND_PATH` to the sibling backend and `DATABASE_URL` to an isolated `upcoming_test` database, with Mailpit on localhost:8025/1025, before `npm run test:e2e`. The backend must already be built. Do not point browser tests at a personal database.
