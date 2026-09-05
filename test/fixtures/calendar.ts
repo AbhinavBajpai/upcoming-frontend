@@ -5,6 +5,7 @@ function film(id: number, title: string, date: string): CalendarFilm {
     tmdbId: id,
     title,
     posterPath: null,
+    imdbId: id === 11 ? "tt1234567" : null,
     releaseDate: date,
     isRevival: false,
   };

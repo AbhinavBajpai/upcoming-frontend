@@ -825,3 +825,36 @@ footer {
     scroll-margin-top: 160px;
   }
 }
+
+.film-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+.film-links a,
+.film-link-unavailable {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 6px 10px;
+  border: 1px solid #cbd5c5;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+.film-links a {
+  color: #245544;
+  background: #f4f6ef;
+}
+.film-links a:hover {
+  background: #e6ecdf;
+  border-color: #245544;
+}
+.film-link-unavailable {
+  color: #6b746d;
+  border-style: dashed;
+}

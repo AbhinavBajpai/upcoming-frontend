@@ -59,3 +59,5 @@ Requires the backend monthly API. From the backend directory, populate the datab
 Months group GB theatrical films by release date, including revivals. The current month starts at the nearest release on or after today in UK time; earlier dates are subdued. Title filtering stays within the selected month. Switching tabs retains the month, filter and scroll position for the current page session. Loading, retry, unrefreshed, empty and no-match states are distinct. Supported month bounds come from the API.
 
 Browser tests use deterministic API fixtures and deliberately unavailable remote images; they do not require a TMDB token. CI retains desktop/mobile screenshots and failure traces for seven days.
+
+Film cards link to IMDb and Letterboxd in new tabs. IMDb links use IDs stored by the backend sync; after upgrading, rebuild the app and rerun the sync command above to populate them. If no IMDb ID is available, the card shows an unavailable label. Letterboxd uses its [documented TMDB-ID redirect](https://letterboxd.com/about/film-data/) to reach the matching film without guessing a title slug.

@@ -15,6 +15,12 @@ const schema = z.object({
       tmdbId: z.number().int().positive(),
       title: z.string(),
       posterPath: z.string().nullable(),
+      imdbId: z
+        .string()
+        .regex(/^tt[0-9]+$/)
+        .nullable()
+        .optional()
+        .default(null),
       releaseDate: date,
       isRevival: z.boolean(),
     }),

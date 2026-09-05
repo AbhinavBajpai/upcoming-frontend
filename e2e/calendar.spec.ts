@@ -120,3 +120,37 @@ test("calendar screenshot and narrow-layout check", async ({ page }, info) => {
     ),
   ).toBe(true);
 });
+
+test("film links open the matching external page in a new tab", async ({
+  page,
+  context,
+}) => {
+  await context.route("https://www.imdb.com/**", (route) =>
+    route.fulfill({ body: "IMDb fixture" }),
+  );
+  await context.route("https://letterboxd.com/**", (route) =>
+    route.fulfill({ body: "Letterboxd fixture" }),
+  );
+  await page.goto("/releases");
+  for (const [site, url] of [
+    ["IMDb", "https://www.imdb.com/title/tt1234567/"],
+    ["Letterboxd", "https://letterboxd.com/tmdb/11/"],
+  ]) {
+    const link = page.getByRole("link", {
+      name: `Nebula on ${site} (opens in a new tab)`,
+      exact: true,
+    });
+    await expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    const opened = page.waitForEvent("popup");
+    await link.click();
+    const popup = await opened;
+    await expect(popup).toHaveURL(url);
+    await popup.close();
+    await expect(page).toHaveURL(/\/releases$/);
+  }
+  await expect(
+    page.getByLabel("IMDb page unavailable for Early September 1", {
+      exact: true,
+    }),
+  ).toBeAttached();
+});

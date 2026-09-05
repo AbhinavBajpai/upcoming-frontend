@@ -4,6 +4,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Film,
+  ExternalLink,
   MapPin,
   Search,
   X,
@@ -316,6 +317,36 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                                 : "In cinemas"}{" "}
                               · {past ? "Released" : dateLabel(date)}
                             </p>
+                            <div className="film-links">
+                              {film.imdbId ? (
+                                <a
+                                  href={`https://www.imdb.com/title/${film.imdbId}/`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  aria-label={`${film.title} on IMDb (opens in a new tab)`}
+                                >
+                                  IMDb{" "}
+                                  <ExternalLink size={13} aria-hidden="true" />
+                                </a>
+                              ) : (
+                                <span
+                                  className="film-link-unavailable"
+                                  aria-label={`IMDb page unavailable for ${film.title}`}
+                                  title="IMDb page unavailable"
+                                >
+                                  IMDb
+                                </span>
+                              )}
+                              <a
+                                href={`https://letterboxd.com/tmdb/${film.tmdbId}/`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label={`${film.title} on Letterboxd (opens in a new tab)`}
+                              >
+                                Letterboxd{" "}
+                                <ExternalLink size={13} aria-hidden="true" />
+                              </a>
+                            </div>
                           </div>
                         </article>
                       ))}
