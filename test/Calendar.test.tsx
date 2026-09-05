@@ -72,7 +72,7 @@ describe("release calendar", () => {
     const img = document.querySelector(".poster img")!;
     fireEvent.error(img);
     expect(screen.getByText("Poster unavailable")).toBeInTheDocument();
-    fireEvent.click(screen.getByRole("link", { name: "Starred" }));
+    fireEvent.click(screen.getByRole("link", { name: "Watch list" }));
     fireEvent.click(screen.getByRole("link", { name: "Releases" }));
     expect(screen.getByRole("heading", { name: "October 2026" })).toBeVisible();
   });

@@ -71,7 +71,7 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
   await expect(
     page.getByRole("article", { name: "Nebula", exact: true }),
   ).toHaveClass(/film-card-starred/);
-  await page.getByRole("link", { name: "Starred", exact: true }).click();
+  await page.getByRole("link", { name: "Watch list", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Nebula", exact: true }),
   ).toBeVisible();

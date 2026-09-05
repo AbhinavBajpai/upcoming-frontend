@@ -44,7 +44,7 @@ test("month/filter/scroll survive a tab switch", async ({ page }) => {
   await page.getByRole("button", { name: "Next month" }).click();
   await expect(page.getByRole("heading", { name: "The Devils" })).toBeVisible();
   await page.getByRole("searchbox").fill("devils");
-  await page.getByRole("link", { name: "Starred", exact: true }).click();
+  await page.getByRole("link", { name: "Watch list", exact: true }).click();
   await page.getByRole("link", { name: "Releases", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "October 2026" }),

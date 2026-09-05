@@ -26,7 +26,7 @@ import { ReleaseCalendar } from "./calendar/ReleaseCalendar";
 
 const pages = [
   { to: "/releases", label: "Releases", icon: CalendarDays },
-  { to: "/starred", label: "Starred", icon: Star },
+  { to: "/starred", label: "Watch list", icon: Star },
   { to: "/friends", label: "Friends", icon: Users },
 ];
 

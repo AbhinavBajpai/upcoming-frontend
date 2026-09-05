@@ -76,7 +76,7 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
       exact: true,
     }),
   ).toBeEnabled();
-  await page.getByRole("link", { name: "Starred", exact: true }).click();
+  await page.getByRole("link", { name: "Watch list", exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Browser Test Feature", exact: true }),
   ).toBeVisible();

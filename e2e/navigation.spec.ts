@@ -5,7 +5,7 @@ test("navigation, direct links and mobile layout", async ({ page }) => {
   await expect(page.getByRole("heading", { level: 1 })).toContainText(
     "Make time",
   );
-  await page.getByRole("link", { name: "Starred", exact: true }).click();
+  await page.getByRole("link", { name: "Watch list", exact: true }).click();
   await expect(page.getByRole("heading", { level: 1 })).toHaveText(
     "Worth the wait.",
   );
