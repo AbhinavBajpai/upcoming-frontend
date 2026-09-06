@@ -668,7 +668,7 @@ select:focus-visible {
   --ticket-paper: #f6bd9b;
   --ticket-ink: #532f37;
   --ticket-rule: #a56b66;
-  --ticket-stub: 102px;
+  --ticket-stub: 138px;
   position: relative;
   display: grid;
   grid-template-columns: var(--ticket-stub) minmax(0, 1fr);
@@ -708,8 +708,8 @@ select:focus-visible {
   border-right: 2px dashed var(--ticket-rule);
 }
 .poster {
-  width: 64px;
-  height: 96px;
+  width: 110px;
+  height: 165px;
   flex-shrink: 0;
   padding: 3px;
   border: 1px solid var(--ticket-rule);
@@ -1411,14 +1411,10 @@ h1.page-heading {
 
 @media (max-width: 800px) {
   .film-card {
-    --ticket-stub: 78px;
+    --ticket-stub: 132px;
   }
   .film-stub {
     padding: 16px 9px;
-  }
-  .poster {
-    width: 52px;
-    height: 78px;
   }
   .film-info {
     padding: 18px 14px;
@@ -1428,16 +1424,11 @@ h1.page-heading {
   }
 }
 @media (max-width: 560px) {
-  .film-card {
-    --ticket-stub: 66px;
-  }
   .film-stub {
     padding: 16px 8px;
     gap: 12px;
   }
   .poster {
-    width: 44px;
-    height: 66px;
     padding: 2px;
   }
   .film-info {
@@ -1589,17 +1580,26 @@ nav a {
   .release-month-navigation h2 {
     font-size: 20px;
   }
-  .film-card {
-    --ticket-stub: 80px;
-  }
-  .poster {
-    width: 58px;
-    height: 87px;
-  }
 }
 
 .watch-view-controls {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+/* On the narrowest phones, leave the actions a full row beside the date stub. */
+@media (max-width: 360px) {
+  .film-card {
+    grid-template-columns: minmax(0, 1fr);
+    mask-image:
+      radial-gradient(circle at 0 199px, transparent 7px, black 7.5px),
+      radial-gradient(circle at 100% 199px, transparent 7px, black 7.5px);
+  }
+  .film-stub {
+    flex-direction: row;
+    gap: 24px;
+    border-right: 0;
+    border-bottom: 2px dashed var(--ticket-rule);
+  }
 }

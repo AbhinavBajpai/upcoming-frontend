@@ -173,7 +173,7 @@ changes and every minute while the document is visible. Confirmed counts remain
 visible during refetches; outgoing requests are not notifications.
 
 On phones, Releases keeps its month heading and controls below the sticky header.
-Date jumps leave room for these controls. Ticket posters are 58×87 pixels.
+Date jumps leave room for these controls. Ticket posters are 110×165 pixels across screen sizes.
 
 Both personal and friends’ watch lists offer **All months**: films dated from the
 start of the previous UK calendar month onward, including all future dates.
