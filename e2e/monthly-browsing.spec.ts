@@ -335,7 +335,9 @@ test("mobile watch-list controls share a sticky two-row layout on personal and f
     );
     await rail.focus();
     await rail.press("End");
-    const date = page.locator('[data-release-date="2026-09-30"]');
+    const date = page.locator(
+      '.watch-list-sections [data-release-date="2026-09-30"]',
+    );
     await expect(date).toBeInViewport();
     expect((await date.boundingBox())!.y).toBeGreaterThanOrEqual(
       bounds.y + bounds.height - 2,

@@ -175,10 +175,10 @@ visible during refetches; outgoing requests are not notifications.
 On phones, Releases keeps its month heading and controls below the sticky header.
 Date jumps leave room for these controls. Ticket posters are 110×165 pixels across screen sizes.
 
-Both personal and friends’ watch lists offer **All months**: films dated from the
+Both personal and friends’ watch lists offer **All**: films dated from the
 start of the previous UK calendar month onward, including all future dates.
-Older films remain available in monthly view. **Date TBC** stays separate, and
-returning to **By month** restores the selected month.
+Older films remain available in monthly view. **TBC** stays separate, and
+pressing **All** again restores the selected month.
 
 
 Watch-list controls now match Releases: the month heading and Previous / This month /
