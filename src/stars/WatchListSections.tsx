@@ -121,7 +121,6 @@ export function WatchListSections({ films }: { films: StarredFilm[] }) {
                   <FilmCard
                     key={film.id}
                     film={film}
-                    showYear
                     past={film.section === "released"}
                   />
                 ))}

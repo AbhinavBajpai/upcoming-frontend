@@ -32,11 +32,9 @@ function Poster({ film }: { film: FilmData }) {
 export function FilmCard({
   film,
   past = false,
-  showYear = false,
 }: {
   film: FilmData;
   past?: boolean;
-  showYear?: boolean;
 }) {
   const headingId = useId();
   const { films } = useStars();
@@ -48,6 +46,15 @@ export function FilmCard({
     >
       <div className="film-stub">
         <Poster key={`${film.id}-${film.posterPath}`} film={film} />
+        <span className="sr-only">
+          {film.releaseDate ? (
+            <time dateTime={film.releaseDate}>
+              {dateLabel(film.releaseDate)} {film.releaseDate.slice(0, 4)}
+            </time>
+          ) : (
+            "Date to be confirmed"
+          )}
+        </span>
         <div className="ticket-date" aria-hidden="true">
           {film.releaseDate ? (
             <>
@@ -67,17 +74,7 @@ export function FilmCard({
       </div>
       <div className="film-info">
         <h4 id={headingId}>{film.title}</h4>
-        <p className="film-release">
-          {film.isRevival ? "Theatrical revival" : "In cinemas"} ·{" "}
-          {film.releaseDate ? (
-            <time dateTime={film.releaseDate}>
-              {dateLabel(film.releaseDate)}
-              {showYear ? ` ${film.releaseDate.slice(0, 4)}` : null}
-            </time>
-          ) : (
-            "Date to be confirmed"
-          )}
-        </p>
+        {film.isRevival && <p className="film-revival">Theatrical revival</p>}
         <div className="film-primary-action">
           <StarButton film={film} />
         </div>
