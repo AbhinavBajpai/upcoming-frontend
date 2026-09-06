@@ -1291,3 +1291,122 @@ footer {
   text-decoration: underline;
   cursor: pointer;
 }
+
+.watch-month-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-top: 28px;
+}
+.watch-month-heading h2 {
+  font-size: 24px;
+}
+.watch-tbc,
+.watch-month-select select {
+  background: #f4f6ef;
+  color: #245544;
+  border: 1px solid #cbd5c5;
+  border-radius: 6px;
+  min-height: 44px;
+  padding: 8px 12px;
+  font: inherit;
+}
+.watch-tbc {
+  cursor: pointer;
+}
+.watch-tbc[aria-pressed="true"] {
+  background: #245544;
+  color: white;
+}
+.watch-month-select {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 13px;
+}
+.date-rail {
+  display: none;
+}
+@media (max-width: 560px) {
+  .has-date-rail {
+    padding-right: 38px;
+  }
+  .date-rail {
+    position: fixed;
+    right: 2px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    width: 44px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 5;
+    border: 1px solid #d7ded0;
+    border-radius: 16px;
+    background: #f7f8f1;
+    touch-action: none;
+    user-select: none;
+    cursor: ns-resize;
+  }
+  .date-rail span {
+    flex: 1;
+    min-height: 0;
+    width: 28px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;
+    line-height: 1;
+    border-radius: 8px;
+  }
+  .date-available {
+    color: #245544;
+    font-weight: 700;
+  }
+  .date-empty {
+    color: #90978d;
+  }
+  .date-rail .date-selected {
+    color: white;
+    background: #65405b;
+  }
+  .date-rail:focus-visible {
+    outline: 3px solid #65405b;
+    outline-offset: 1px;
+  }
+  .has-date-rail .film-card {
+    gap: 12px;
+    padding: 14px 10px;
+  }
+  .has-date-rail .poster {
+    width: 48px;
+    flex-basis: 48px;
+    height: 72px;
+  }
+  .has-date-rail .poster img {
+    width: 48px;
+    height: 72px;
+  }
+  .watch-month-select {
+    flex-wrap: wrap;
+  }
+}
+.film-links a,
+.film-link-unavailable {
+  min-height: 44px;
+  padding: 4px 8px;
+}
+.film-links img {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+.imdb-logo {
+  background: #f5c518;
+  border-radius: 5px;
+}
+.film-link-unavailable .imdb-logo {
+  filter: grayscale(1);
+  opacity: 0.5;
+}

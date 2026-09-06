@@ -1,20 +1,14 @@
+import { DateRail } from "./DateRail";
+import { MonthControls } from "./MonthControls";
 import { InterestProvider } from "../interest/InterestProvider";
 import { FilmCard } from "../components/FilmCard";
 import { useEffect, useRef, useState } from "react";
-import {
-  CalendarDays,
-  ChevronLeft,
-  ChevronRight,
-  MapPin,
-  Search,
-  X,
-} from "lucide-react";
+import { CalendarDays, MapPin, Search, X } from "lucide-react";
 import {
   currentUkMonth,
   dateLabel,
   fetchCalendar,
   monthLabel,
-  offsetMonth,
   type CalendarFilm,
   type ReleaseCalendar as CalendarData,
 } from "./api";
@@ -132,34 +126,14 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
           </span>
         </div>
         <div className="calendar-toolbar">
-          <div className="month-controls" aria-label="Choose a month">
-            <button
-              type="button"
-              className="icon-button"
-              aria-label="Previous month"
-              disabled={!range || month <= range.from || loading}
-              onClick={() => changeMonth(offsetMonth(month, -1))}
-            >
-              <ChevronLeft size={20} />
-            </button>
-            <button
-              type="button"
-              className="month-today"
-              disabled={month === currentMonth}
-              onClick={() => changeMonth(currentMonth)}
-            >
-              This month
-            </button>
-            <button
-              type="button"
-              className="icon-button"
-              aria-label="Next month"
-              disabled={!range || month >= range.to || loading}
-              onClick={() => changeMonth(offsetMonth(month, 1))}
-            >
-              <ChevronRight size={20} />
-            </button>
-          </div>
+          <MonthControls
+            month={month}
+            currentMonth={currentMonth}
+            from={range?.from}
+            to={range?.to}
+            disabled={loading}
+            onChange={changeMonth}
+          />
           <div className="title-filter">
             <Search size={17} aria-hidden="true" />
             <label className="sr-only" htmlFor="film-filter">
@@ -252,38 +226,45 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                 )}
               </div>
             ) : (
-              <div className="release-groups">
-                {[...groups].map(([date, films]) => {
-                  const past = date < data.today;
-                  return (
-                    <section
-                      className={`release-day${past ? " release-day-past" : ""}`}
-                      key={date}
-                      ref={date === nextDate ? nextDateRef : undefined}
-                      aria-labelledby={`date-${date}`}
-                      data-release-date={date}
-                    >
-                      <div className="date-heading">
-                        <h3 id={`date-${date}`}>
-                          <time dateTime={date}>{dateLabel(date)}</time>
-                        </h3>
-                        <span>
-                          {date === data.today
-                            ? "Today"
-                            : past
-                              ? "Released"
-                              : `${films.length} ${films.length === 1 ? "film" : "films"}`}
-                        </span>
-                      </div>
-                      <div className="film-grid">
-                        {films.map((film) => (
-                          <FilmCard key={film.id} film={film} past={past} />
-                        ))}
-                      </div>
-                    </section>
-                  );
-                })}
-              </div>
+              <DateRail
+                key={month}
+                month={month}
+                dates={[...groups.keys()]}
+                active={active}
+              >
+                <div className="release-groups">
+                  {[...groups].map(([date, films]) => {
+                    const past = date < data.today;
+                    return (
+                      <section
+                        className={`release-day${past ? " release-day-past" : ""}`}
+                        key={date}
+                        ref={date === nextDate ? nextDateRef : undefined}
+                        aria-labelledby={`date-${date}`}
+                        data-release-date={date}
+                      >
+                        <div className="date-heading">
+                          <h3 id={`date-${date}`}>
+                            <time dateTime={date}>{dateLabel(date)}</time>
+                          </h3>
+                          <span>
+                            {date === data.today
+                              ? "Today"
+                              : past
+                                ? "Released"
+                                : `${films.length} ${films.length === 1 ? "film" : "films"}`}
+                          </span>
+                        </div>
+                        <div className="film-grid">
+                          {films.map((film) => (
+                            <FilmCard key={film.id} film={film} past={past} />
+                          ))}
+                        </div>
+                      </section>
+                    );
+                  })}
+                </div>
+              </DateRail>
             )}
           </>
         )}

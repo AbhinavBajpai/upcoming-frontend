@@ -75,7 +75,14 @@ export function FilmCard({
               rel="noopener noreferrer"
               aria-label={`${film.title} on IMDb (opens in a new tab)`}
             >
-              IMDb <ExternalLink size={13} aria-hidden="true" />
+              <img
+                className="imdb-logo"
+                src="/brands/imdb.svg"
+                width="40"
+                height="40"
+                alt=""
+              />{" "}
+              <ExternalLink size={13} aria-hidden="true" />
             </a>
           ) : (
             <span
@@ -83,7 +90,13 @@ export function FilmCard({
               aria-label={`IMDb page unavailable for ${film.title}`}
               title="IMDb page unavailable"
             >
-              IMDb
+              <img
+                className="imdb-logo"
+                src="/brands/imdb.svg"
+                width="40"
+                height="40"
+                alt=""
+              />
             </span>
           )}
           <a
@@ -92,7 +105,14 @@ export function FilmCard({
             rel="noopener noreferrer"
             aria-label={`${film.title} on Letterboxd (opens in a new tab)`}
           >
-            Letterboxd <ExternalLink size={13} aria-hidden="true" />
+            <img
+              className="letterboxd-logo"
+              src="/brands/letterboxd.svg"
+              width="40"
+              height="40"
+              alt=""
+            />{" "}
+            <ExternalLink size={13} aria-hidden="true" />
           </a>
         </div>
       </div>

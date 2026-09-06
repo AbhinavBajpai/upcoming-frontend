@@ -84,7 +84,7 @@ catalogue as the release calendar, so postponements do not remove stars.
 
 Browser CI covers real account creation and star persistence using PostgreSQL,
 Mailpit, and a fictional catalogue fixture in `upcoming_test`. Mocked browser
-scenarios additionally exercise request failure and all three list sections.
+scenarios additionally exercise request failure, monthly navigation and Date TBC.
 
 The Friends tab supports profile-link sharing, incoming/sent requests and accepted
 connections. `/friends/<userId>` opens a profile and preserves that route through
@@ -117,3 +117,29 @@ across focus changes, and invalidated around star and friendship changes. Failed
 unauthorized batches never leave old names visible; a list-level retry is available.
 Changes made in another browser session become visible when you return focus to
 the app or revisit the list.
+
+
+### Monthly browsing (UP-16, UP-17, UP-18)
+
+Personal and accepted friends’ watch lists open on the current UK month and use
+shared Previous / This month / Next controls. Dated films are grouped chronologically;
+older months remain accessible through the month selector. Empty intervening months
+have an explicit empty state. Date TBC retains films with no known release date.
+Month navigation is client-side over the existing watch-list response; it does not
+remove saved films or require a new backend endpoint.
+
+On mobile (up to 560px), Releases and monthly watch lists have a date rail beside
+the film groups. All days remain visible; grey dates have no films in the current
+view. Drag or tap to jump to the nearest populated date (ties choose the earlier
+date). Scrolling the film list updates the highlight. The rail is also a single
+keyboard-accessible slider: arrows move between populated dates, Home/End jump to
+the first/last date. It hides outside the list and on other app tabs. Date TBC has
+no date rail. On short screens the ticks are compact; the whole rail is the drag
+surface rather than requiring precise taps on individual ticks.
+
+IMDb and Letterboxd links use bundled SVG logos with accessible film/service names,
+new-tab hints and the original destinations. Source attribution is in
+`public/brands/README.md`.
+
+To test these changes, use backend `main` and frontend `feat/monthly-browsing`, then
+run `docker compose up --build -d --wait` from the backend repository.
