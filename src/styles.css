@@ -846,10 +846,6 @@ footer {
   .film-grid {
     grid-template-columns: 1fr;
   }
-  .film-card {
-    gap: 18px;
-    padding: 14px;
-  }
   .film-category {
     font-size: 8px;
   }
