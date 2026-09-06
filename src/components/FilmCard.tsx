@@ -42,6 +42,8 @@ export function FilmCard({
   return (
     <article
       className={`film-card${past ? " film-past" : ""}${starred ? " film-card-starred" : ""}`}
+      data-film-id={film.id}
+      tabIndex={-1}
       aria-labelledby={headingId}
     >
       <div className="film-stub">

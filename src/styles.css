@@ -1478,3 +1478,68 @@ h1.page-heading {
   outline: 1px solid var(--ticket-ink);
   outline-offset: 2px;
 }
+
+.other-month-matches {
+  margin: 18px 0 24px;
+  padding: 16px;
+  border: 1px solid #cbd5c5;
+  border-radius: 4px;
+  background: #f0f2e9;
+}
+.other-month-matches h3 {
+  margin: 0 0 10px;
+  font-size: 15px;
+}
+.other-month-matches ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.other-month-matches li + li {
+  border-top: 1px solid #d8ded1;
+}
+.other-month-matches a {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px 20px;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 44px;
+  padding: 8px 0;
+  color: #245544;
+}
+.other-month-matches a > span {
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.other-month-matches time {
+  font-size: 13px;
+}
+.other-month-matches a:hover {
+  text-decoration: underline;
+}
+.other-month-matches p,
+.other-month-status {
+  font-size: 13px;
+}
+.other-month-status button {
+  font: inherit;
+  color: #245544;
+  background: transparent;
+  border: 0;
+  padding: 8px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.film-card {
+  scroll-margin-top: 120px;
+}
+.film-card:focus-visible {
+  outline: 3px solid var(--ticket-ink);
+  outline-offset: -4px;
+}
+@media (max-width: 560px) {
+  .film-card {
+    scroll-margin-top: 160px;
+  }
+}
