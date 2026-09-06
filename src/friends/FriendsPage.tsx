@@ -10,10 +10,7 @@ export function FriendsPage() {
   const { user, loading } = useAccount(),
     { userId } = useParams();
   return (
-    <section className="friends-page" aria-labelledby="friends-title">
-      <h1 className="page-heading" id="friends-title">
-        Friends
-      </h1>
+    <section className="friends-page">
       {loading ? (
         <p role="status">Checking your account…</p>
       ) : !user ? (

@@ -7,10 +7,7 @@ export function StarredPage() {
   const { user, loading: accountLoading } = useAccount();
   const { films, loading, ready, error } = useStars();
   return (
-    <section className="starred-page" aria-labelledby="starred-title">
-      <h1 className="page-heading" id="starred-title">
-        Watch list
-      </h1>
+    <section className="starred-page">
       {loading || accountLoading ? (
         <p role="status">Loading watch list…</p>
       ) : !user ? (

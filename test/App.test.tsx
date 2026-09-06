@@ -10,9 +10,8 @@ describe("application navigation", () => {
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Releases",
-    );
+    expect(screen.getByRole("main", { name: "Releases" })).toBeVisible();
+    expect(screen.queryByRole("heading", { level: 1 })).toBeNull();
     expect(screen.getByRole("link", { name: "Releases" })).toHaveAttribute(
       "aria-current",
       "page",
@@ -27,9 +26,8 @@ describe("application navigation", () => {
       </MemoryRouter>,
     );
     fireEvent.click(screen.getByRole("link", { name: "Friends" }));
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Friends",
-    );
+    expect(screen.getByRole("main", { name: "Friends" })).toBeVisible();
+    expect(screen.queryByRole("heading", { level: 1 })).toBeNull();
     expect(screen.getByRole("main")).toHaveFocus();
   });
   it("opens a direct starred link and provides a route back", () => {
@@ -38,9 +36,8 @@ describe("application navigation", () => {
         <App />
       </MemoryRouter>,
     );
-    expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Watch list",
-    );
+    expect(screen.getByRole("main", { name: "Watch list" })).toBeVisible();
+    expect(screen.queryByRole("heading", { level: 1 })).toBeNull();
     expect(
       screen.getByRole("link", { name: /Back to releases/ }),
     ).toHaveAttribute("href", "/releases");

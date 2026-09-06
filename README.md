@@ -144,3 +144,23 @@ new-tab hints and the original destinations. Source attribution is in
 
 To test these changes, use backend `main` and frontend `feat/monthly-browsing`, then
 run `docker compose up --build -d --wait` from the backend repository.
+
+
+### Cross-month suggestions and page navigation (UP-19, UP-20)
+
+Filtering Releases also suggests up to 20 matching films in other supported months.
+Search is debounced by 300 ms; a suggestion failure has its own retry and does not
+interrupt local filtering. Selecting a suggestion preserves the query, opens its
+month and focuses the matching ticket after the results settle. Month, query and
+target film are carried in the URL, so reload and browser Back retain the search.
+Bare app-tab links continue to preserve the mounted calendar’s selection.
+
+The Releases, Watch list and Friends pages omit redundant page-title headings.
+The navigation exposes `aria-current`, the main landmark names the active page,
+document titles identify the page, and route changes focus the main content.
+Month, list and film headings remain available for heading navigation. Account and
+authentication form headings remain because no main tab identifies those screens.
+
+To test UP-19 and UP-20, use `feat/cross-month-search` in both repositories and
+rebuild Compose from the backend. Search for a known film in a different month,
+follow its suggestion, reload, then use Back. Verify the query/month are restored.
