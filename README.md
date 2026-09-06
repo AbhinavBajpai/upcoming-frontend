@@ -1,6 +1,6 @@
 # Upcoming frontend
 
-Responsive React + TypeScript app, built with Vite. Releases, Starred and Friends have accessible client-side routes, keyboard focus handling and mobile layouts. The release calendar loads live catalogue data from the backend. Email/password accounts are available; stars and friendships remain subsequent features.
+Responsive React + TypeScript app, built with Vite. Releases, Watch list and Friends have accessible client-side routes, keyboard focus handling and mobile layouts. The release calendar loads live catalogue data from the backend. Email/password accounts, personal watch lists and mutual friendships are available.
 
 ## Run the app with Docker
 
@@ -50,13 +50,13 @@ npm run build
 
 The output is `dist/`. The sibling Express backend serves that directory by default, keeping frontend and API on one hostname. See its README for starting and configuring the production build. `npm run preview` is a local build preview, not the home-server deployment.
 
-Fonts (DM Sans and Manrope) are bundled locally through Fontsource. Icons use Lucide. The UI makes no external font requests. Film posters load from TMDB with a missing-image fallback. The About and credits footer includes TMDB attribution and its approved logo.
+Fonts (DM Sans, Manrope and Share Tech Mono) are bundled locally through Fontsource. Icons use Lucide. The UI makes no external font requests. Film posters load from TMDB with a missing-image fallback. The About and credits footer includes TMDB attribution and its approved logo.
 
 ## Release calendar
 
 Requires the backend monthly API. From the backend directory, populate the database with `docker compose --profile tools run --build --rm -T sync` using the token in its `.env`. Rebuild the app after updating either repository.
 
-Months group GB theatrical films by release date, including revivals. The current month starts at the nearest release on or after today in UK time; earlier dates are subdued. Title filtering stays within the selected month. Switching tabs retains the month, filter and scroll position for the current page session. Loading, retry, unrefreshed, empty and no-match states are distinct. Supported month bounds come from the API.
+Months group GB theatrical films by release date, including revivals. The current month starts at the nearest release on or after today in UK time; ticket colour reflects whether the film is on your watch list. Title filtering stays within the selected month. Switching tabs retains the month, filter and scroll position for the current page session. Loading, retry, unrefreshed, empty and no-match states are distinct. Supported month bounds come from the API.
 
 Browser tests use deterministic API fixtures and deliberately unavailable remote images; they do not require a TMDB token. CI retains desktop/mobile screenshots and failure traces for seven days.
 
@@ -164,3 +164,18 @@ authentication form headings remain because no main tab identifies those screens
 To test UP-19 and UP-20, use `feat/cross-month-search` in both repositories and
 rebuild Compose from the backend. Search for a known film in a different month,
 follow its suggestion, reload, then use Back. Verify the query/month are restored.
+
+
+### Beta browsing refinements (UP-23–26)
+
+The Friends tab shows an incoming-request count. It refreshes on focus, friendship
+changes and every minute while the document is visible. Confirmed counts remain
+visible during refetches; outgoing requests are not notifications.
+
+On phones, Releases keeps its month heading and controls below the sticky header.
+Date jumps leave room for these controls. Ticket posters are 58×87 pixels.
+
+Both personal and friends’ watch lists offer **All months**: films dated from the
+start of the previous UK calendar month onward, including all future dates.
+Older films remain available in monthly view. **Date TBC** stays separate, and
+returning to **By month** restores the selected month.

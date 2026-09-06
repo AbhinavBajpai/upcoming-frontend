@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type ReactNode } from "react";
+import { scrollOffset } from "./scrollOffset";
 import { dateLabel, monthLabel } from "./api";
 
 import { monthDates, nearestDate } from "./dates";
@@ -32,10 +33,7 @@ export function DateRail({
       frame = 0;
       const root = container.current;
       if (!root) return;
-      const header =
-        document.querySelector(".site-header")?.getBoundingClientRect()
-          .bottom ?? 0;
-      const top = Math.max(0, header) + 12;
+      const top = scrollOffset();
       const rect = root.getBoundingClientRect();
       const groups = [
         ...root.querySelectorAll<HTMLElement>("[data-release-date]"),
@@ -77,11 +75,9 @@ export function DateRail({
       `[data-release-date="${date}"]`,
     );
     if (!group) return;
-    const header =
-      document.querySelector(".site-header")?.getBoundingClientRect().bottom ??
-      0;
+    const offset = scrollOffset();
     window.scrollTo({
-      top: window.scrollY + group.getBoundingClientRect().top - header - 12,
+      top: window.scrollY + group.getBoundingClientRect().top - offset,
       behavior: "instant",
     });
     setPosition((previous) => ({ ...previous, date }));

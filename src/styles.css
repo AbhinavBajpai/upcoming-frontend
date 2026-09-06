@@ -1540,3 +1540,66 @@ h1.page-heading {
     scroll-margin-top: 160px;
   }
 }
+
+nav a {
+  position: relative;
+}
+.friends-badge {
+  position: absolute;
+  top: 1px;
+  right: 1px;
+  display: grid;
+  place-items: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 4px;
+  border-radius: 12px;
+  background: #f6bd9b;
+  color: #532f37;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+.release-month-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.release-month-navigation .section-heading {
+  margin: 0;
+}
+.calendar .release-day,
+.calendar .film-card {
+  scroll-margin-top: var(--release-scroll-offset, 120px);
+}
+@media (max-width: 560px) {
+  .release-month-navigation {
+    position: sticky;
+    top: var(--site-header-height, 128px);
+    z-index: 8;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 0;
+    background: var(--ui-page);
+    border-bottom: 1px solid var(--ui-border);
+  }
+  .release-month-navigation h2 {
+    font-size: 20px;
+  }
+  .film-card {
+    --ticket-stub: 80px;
+  }
+  .poster {
+    width: 58px;
+    height: 87px;
+  }
+}
+
+.watch-view-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}

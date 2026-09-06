@@ -1,3 +1,4 @@
+import { FriendsBadge } from "./friends/FriendsBadge";
 import { FriendsPage } from "./friends/FriendsPage";
 import { StarProvider } from "./stars/StarProvider";
 import { StarredPage } from "./stars/StarredPage";
@@ -74,6 +75,19 @@ function AppContent() {
       previousPath.current = location.pathname;
     }
   }, [location.pathname, pageLabel]);
+  useEffect(() => {
+    const header = document.querySelector(".site-header");
+    if (!header) return;
+    const measure = () =>
+      document.documentElement.style.setProperty(
+        "--site-header-height",
+        `${header.getBoundingClientRect().height}px`,
+      );
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
   return (
     <>
       <a className="skip-link" href="#main-content">
@@ -92,6 +106,7 @@ function AppContent() {
               <NavLink key={to} to={to}>
                 <Icon size={18} strokeWidth={1.7} />
                 <span>{label}</span>
+                {to === "/friends" && user && <FriendsBadge key={user.id} />}
               </NavLink>
             ))}
           </nav>
