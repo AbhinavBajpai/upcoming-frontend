@@ -46,7 +46,25 @@ export function FilmCard({
       className={`film-card${past ? " film-past" : ""}${starred ? " film-card-starred" : ""}`}
       aria-labelledby={headingId}
     >
-      <Poster key={`${film.id}-${film.posterPath}`} film={film} />
+      <div className="film-stub">
+        <Poster key={`${film.id}-${film.posterPath}`} film={film} />
+        <div className="ticket-date" aria-hidden="true">
+          {film.releaseDate ? (
+            <>
+              <strong>{film.releaseDate.slice(8, 10)}</strong>
+              <span>
+                {new Intl.DateTimeFormat("en-GB", {
+                  month: "short",
+                  timeZone: "UTC",
+                }).format(new Date(`${film.releaseDate}T12:00:00Z`))}
+              </span>
+              <span>{film.releaseDate.slice(0, 4)}</span>
+            </>
+          ) : (
+            <span>Date TBC</span>
+          )}
+        </div>
+      </div>
       <div className="film-info">
         <h4 id={headingId}>{film.title}</h4>
         <p className="film-release">
