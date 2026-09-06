@@ -241,7 +241,7 @@ test("mobile month controls stay below the header while scrolling, with larger p
   const header = (await page.locator(".site-header").boundingBox())!;
   const box = (await controls.boundingBox())!;
   expect(Math.abs(box.y - (header.y + header.height))).toBeLessThan(2);
-  expect((await page.locator(".poster").first().boundingBox())!.width).toBe(58);
+  expect((await page.locator(".poster").first().boundingBox())!.width).toBe(110);
   await page.screenshot({ path: info.outputPath("sticky-month-controls.png") });
   await page.getByRole("button", { name: "Next month", exact: true }).click();
   await expect(
