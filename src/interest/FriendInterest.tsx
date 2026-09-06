@@ -16,7 +16,7 @@ export function FriendInterest({
       className="friend-interest"
       aria-label={`Friends who want to watch ${title}`}
     >
-      <Users size={15} aria-hidden="true" />
+      <Users size={18} aria-hidden="true" />
       {friends.length <= 2 ? (
         <p>
           {friends.map((friend, index) => (

@@ -92,8 +92,8 @@ sign-in. Only an accepted friend's profile loads their watch list; buttons on
 that list add/remove films from **your own** watch list.
 
 Friend data is scoped to the current account and profile. Navigation, refocusing
-the browser and permission refreshes reload it; hiding the tab clears displayed
-friend data. Failed or unauthorized reads never fall back to a cached private
+the browser and permission refreshes reload it. Losing focus retains confirmed
+friend data, and refocusing refreshes it in the background. Failed or unauthorized reads never fall back to a cached private
 list. Actions refresh the server state, including crossed requests and conflicts.
 Removing a friend requires an inline confirmation explaining that access ends in
 both directions.
@@ -108,11 +108,12 @@ remove the connection and revisit the profile to check access is gone.
 Film cards now show which of **your accepted friends** want to watch a film, on
 Releases, your watch list and friend watch lists. One or two names appear directly;
 larger groups use a keyboard-accessible disclosure listing every name. Names link
-to the respective friend profiles.
+to the respective friend profiles. A solid plum panel with white text makes this
+shared interest prominent on each card.
 
 Each active list requests interest in batches of at most 100 unique film IDs,
-never one request per card. Data is isolated by signed-in account and list, cleared
-on blur/refresh, and invalidated around star and friendship changes. Failed or
+never one request per card. Data is isolated by signed-in account and list, retained
+across focus changes, and invalidated around star and friendship changes. Failed or
 unauthorized batches never leave old names visible; a list-level retry is available.
 Changes made in another browser session become visible when you return focus to
 the app or revisit the list.

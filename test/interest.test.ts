@@ -72,7 +72,7 @@ it("hides names throughout mutations and rejects late responses from before inva
   await Promise.resolve();
   expect(state.getSnapshot().films.film).toEqual([]);
 });
-it("clears names on backgrounding, unauthorized refresh and changing account/list", async () => {
+it("retains names on backgrounding but clears them on unauthorized refresh and changing account/list", async () => {
   vi.stubGlobal(
     "fetch",
     vi
@@ -85,7 +85,7 @@ it("clears names on backgrounding, unauthorized refresh and changing account/lis
     expect(state.getSnapshot().films.film).toHaveLength(1),
   );
   state.visibility(false);
-  expect(state.getSnapshot().films).toEqual({});
+  expect(state.getSnapshot().films.film).toHaveLength(1);
   state.visibility(true);
   await vi.waitFor(() => expect(state.getSnapshot().error).toBe(true));
   expect(state.getSnapshot().films).toEqual({});
@@ -134,4 +134,27 @@ it("discards an entire list if a later batch loses authorization", async () => {
   await vi.waitFor(() => expect(state.getSnapshot().error).toBe(true));
   expect(state.getSnapshot().films).toEqual({});
   expect(fetch).toHaveBeenCalledTimes(2);
+});
+
+it("retains confirmed names throughout focus refresh and applies changed interest", async () => {
+  const refreshed = deferred();
+  const fetch = vi
+    .fn()
+    .mockResolvedValueOnce(response(["film"]))
+    .mockReturnValueOnce(refreshed.promise);
+  vi.stubGlobal("fetch", fetch);
+  const state = start("alice", ["film"]);
+  await vi.waitFor(() =>
+    expect(state.getSnapshot().films.film).toHaveLength(1),
+  );
+  state.visibility(false);
+  expect(state.getSnapshot().films.film[0].displayName).toBe("Bob");
+  expect(fetch).toHaveBeenCalledTimes(1);
+  state.visibility(true);
+  expect(fetch).toHaveBeenCalledTimes(2);
+  expect(state.getSnapshot().films.film[0].displayName).toBe("Bob");
+  refreshed.resolve(
+    Response.json({ films: [{ filmId: "film", friends: [] }] }),
+  );
+  await vi.waitFor(() => expect(state.getSnapshot().films.film).toEqual([]));
 });

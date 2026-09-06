@@ -29,13 +29,13 @@ export function createInterestState(
     snapshot = value;
     listeners.forEach((fn) => fn());
   }
-  function clear() {
+  function cancel() {
     version++;
     controller?.abort();
-    update({ films: {}, error: false });
   }
-  async function load() {
-    clear();
+  async function load(preserve = false) {
+    cancel();
+    if (!preserve) update({ films: {}, error: false });
     if (
       !active ||
       !visible ||
@@ -93,7 +93,9 @@ export function createInterestState(
     },
     visibility(value: boolean) {
       visible = value;
-      void load();
+      // Keep confirmed names while unfocused and during the next refresh.
+      if (value) void load(true);
+      else cancel();
     },
     refresh: () => void load(),
   };

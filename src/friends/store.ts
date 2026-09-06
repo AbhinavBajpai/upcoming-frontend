@@ -6,7 +6,7 @@ import {
   type FriendView,
 } from "./api";
 // A store belongs to one mounted account/profile view. Private lists are never
-// reused across routes, account changes, hidden tabs or permission refreshes.
+// reused across routes or account changes. Focus refreshes retain confirmed data.
 export function createFriendState(target?: string) {
   let snapshot = {
     data: null as FriendView | null,
@@ -25,18 +25,23 @@ export function createFriendState(target?: string) {
     snapshot = { ...snapshot, ...patch };
     listeners.forEach((fn) => fn());
   }
-  async function load() {
+  async function load(preserve = false) {
     if (!active || !visible) return;
     const ticket = ++version;
     controller?.abort();
     controller = new AbortController();
-    update({ data: null, loading: true, error: null });
+    update({
+      data: preserve ? snapshot.data : null,
+      loading: !preserve || !snapshot.data,
+      error: null,
+    });
     try {
       const data = await readView(target, controller.signal);
       if (active && ticket === version) update({ data });
     } catch (error) {
       if (active && ticket === version)
         update({
+          data: null,
           signedOut:
             error instanceof FriendRequestError && error.status === 401,
           error:
@@ -75,8 +80,9 @@ export function createFriendState(target?: string) {
     },
     visibility(value: boolean) {
       visible = value;
-      clear();
-      if (value && !snapshot.pending) void load();
+      version++;
+      controller?.abort();
+      if (value && !snapshot.pending) void load(true);
     },
     async change(path: string, message: string) {
       if (snapshot.pending || !active) return;

@@ -76,7 +76,7 @@ it("clears private lists before refresh and ignores stale reads after permission
   await Promise.resolve();
   expect(state.getSnapshot().data?.watchList).toBeUndefined();
 });
-it("discards late responses after leaving a profile/account and hides private data in background tabs", async () => {
+it("discards late responses after leaving a profile/account and retains confirmed data in background tabs", async () => {
   const late = deferred<FriendView>();
   vi.mocked(readView).mockReturnValueOnce(late.promise);
   const state = createFriendState("bob"),
@@ -92,10 +92,12 @@ it("discards late responses after leaving a profile/account and hides private da
     expect(current.getSnapshot().data?.watchList).toBeDefined(),
   );
   current.visibility(false);
-  expect(current.getSnapshot().data).toBeNull();
+  expect(current.getSnapshot().data).toEqual(privateView);
   vi.mocked(readView).mockRejectedValue(new FriendRequestError(404));
   current.visibility(true);
-  await vi.waitFor(() => expect(current.getSnapshot().loading).toBe(false));
+  await vi.waitFor(() =>
+    expect(current.getSnapshot().error).toContain("no longer available"),
+  );
   expect(current.getSnapshot().data).toBeNull();
   expect(current.getSnapshot().error).toContain("no longer available");
 });

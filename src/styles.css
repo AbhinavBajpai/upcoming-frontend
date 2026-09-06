@@ -1233,23 +1233,30 @@ footer {
 .friend-interest {
   display: flex;
   align-items: baseline;
-  gap: 7px;
+  gap: 9px;
   margin-top: 14px;
-  color: #42623e;
-  font-size: 12px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #65405b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
   line-height: 1.6;
 }
 .friend-interest > svg {
   flex-shrink: 0;
   align-self: flex-start;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 .friend-interest p {
+  min-width: 0;
   margin: 0;
 }
 .friend-interest a {
-  color: #245544;
-  font-weight: 600;
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
   overflow-wrap: anywhere;
 }
 .friend-interest details {
@@ -1257,14 +1264,17 @@ footer {
 }
 .friend-interest summary {
   cursor: pointer;
-  min-height: 32px;
 }
 .friend-interest ul {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   padding-left: 18px;
 }
-.friend-interest summary:focus-visible {
-  outline: 3px solid #ad681c;
+.friend-interest li + li {
+  margin-top: 5px;
+}
+.friend-interest summary:focus-visible,
+.friend-interest a:focus-visible {
+  outline: 3px solid #fff;
   outline-offset: 3px;
 }
 .interest-error {

@@ -74,6 +74,11 @@ test("batched names, larger groups and refreshed privacy across all film views",
   const card = page.getByRole("article", { name: "Nebula", exact: true });
   await expect(card.getByText("3 friends want to watch")).toBeVisible();
   expect(interestCalls).toBe(1);
+  await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+  await expect(card.getByText("3 friends want to watch")).toBeVisible();
+  expect(interestCalls).toBe(1);
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+  await expect(card.getByText("3 friends want to watch")).toBeVisible();
   await card.locator("summary").click();
   await expect(
     card.getByRole("link", { name: "Bob", exact: true }),
@@ -94,6 +99,10 @@ test("batched names, larger groups and refreshed privacy across all film views",
       .getByRole("article", { name: "Nebula", exact: true })
       .getByText("3 friends want to watch"),
   ).toBeVisible();
+  await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+  await expect(card.getByText("3 friends want to watch")).toBeVisible();
+  await page.evaluate(() => window.dispatchEvent(new Event("focus")));
+  await expect(card.getByText("3 friends want to watch")).toBeVisible();
   await page
     .getByRole("button", { name: "Remove friend", exact: true })
     .click();
