@@ -9,7 +9,7 @@ import "@fontsource/dm-sans/latin-700.css";
 import "@fontsource/manrope/latin-500.css";
 import "@fontsource/manrope/latin-600.css";
 import "@fontsource/manrope/latin-800.css";
-import "@fontsource/offside/latin-400.css";
+import "@fontsource/share-tech-mono/latin-400.css";
 import "./styles.css";
 
 createRoot(document.getElementById("root")!).render(
