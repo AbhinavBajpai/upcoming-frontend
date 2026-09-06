@@ -34,7 +34,7 @@ jobs:
         with:
           repository: AbhinavBajpai/upcoming-backend
           # Pin the backend contract exercised by these browser tests.
-          ref: 9fb340238e0bbb21b3e06f20a7fc692aa663b992
+          ref: a023f2c0df19512f68a9ddb14fe2ebc126360397
           path: .e2e-backend
       - run: npm ci && npm run build
         working-directory: .e2e-backend

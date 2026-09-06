@@ -28,6 +28,9 @@ test.beforeEach(async ({ page }) => {
       section: "tbc",
     },
   ];
+  await page.route("**/api/friends", (route) =>
+    route.fulfill({ json: { accepted: [], incoming: [], outgoing: [] } }),
+  );
   await page.route("**/api/me", (route) =>
     route.fulfill({ json: { user: { id: "alice", displayName: "Alice" } } }),
   );
@@ -190,4 +193,100 @@ test("mobile date rail supports dragging, keyboard navigation and ordinary scrol
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBe(true);
+});
+
+test("both watch lists can show recent and future releases together", async ({
+  page,
+}) => {
+  for (const path of ["/starred", "/friends/bob"]) {
+    await page.goto(path);
+    await page.getByRole("button", { name: "All months", exact: true }).click();
+    await expect(page.getByRole("article")).toHaveCount(2);
+    await expect(
+      page.getByRole("article", { name: "Nebula", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("article", { name: "Next month film", exact: true }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("article", { name: "Last year", exact: true }),
+    ).toHaveCount(0);
+    await page
+      .getByRole("button", { name: "Date TBC (1)", exact: true })
+      .click();
+    await expect(
+      page.getByRole("article", { name: "Undated film", exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "Back to list", exact: true })
+      .click();
+    await expect(page.getByRole("article")).toHaveCount(2);
+    await page.getByRole("button", { name: "By month", exact: true }).click();
+    await expect(page.getByRole("article")).toHaveCount(1);
+  }
+});
+
+test("mobile month controls stay below the header while scrolling, with larger posters", async ({
+  page,
+  isMobile,
+}, info) => {
+  test.skip(!isMobile);
+  await page.goto("/releases");
+  await expect(
+    page.getByRole("article", { name: "Nebula", exact: true }),
+  ).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 1400));
+  const controls = page.locator(".release-month-navigation");
+  await expect(controls).toBeInViewport();
+  const header = (await page.locator(".site-header").boundingBox())!;
+  const box = (await controls.boundingBox())!;
+  expect(Math.abs(box.y - (header.y + header.height))).toBeLessThan(2);
+  expect((await page.locator(".poster").first().boundingBox())!.width).toBe(58);
+  await page.screenshot({ path: info.outputPath("sticky-month-controls.png") });
+  await page.getByRole("button", { name: "Next month", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "October 2026", exact: true }),
+  ).toBeInViewport();
+  await page.setViewportSize({ width: 320, height: 700 });
+  await expect(
+    page.getByRole("article", { name: "The Devils", exact: true }),
+  ).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  await page.screenshot({
+    path: info.outputPath("narrow-ticket.png"),
+    fullPage: true,
+  });
+});
+
+test("Friends tab shows incoming requests and retains the badge on blur", async ({
+  page,
+}, info) => {
+  await page.route("**/api/friends", (route) =>
+    route.fulfill({
+      json: {
+        accepted: [],
+        outgoing: [],
+        incoming: [
+          {
+            id: "request",
+            userId: "bob",
+            displayName: "Bob",
+            relationship: "incoming",
+          },
+        ],
+      },
+    }),
+  );
+  await page.goto("/releases");
+  const tab = page.getByRole("link", {
+    name: /Friends.*1 incoming friend request/,
+  });
+  await expect(tab).toBeVisible();
+  await page.evaluate(() => window.dispatchEvent(new Event("blur")));
+  await expect(tab.locator(".friends-badge")).toHaveText("1");
+  await page.screenshot({ path: info.outputPath("friends-request-badge.png") });
 });
