@@ -196,6 +196,11 @@ test("real friends can connect, view lists, save films and disconnect", async ({
         exact: true,
       }),
     ).toBeEnabled();
+    await expect(
+      alice
+        .getByRole("article", { name: "Browser Test Feature", exact: true })
+        .getByRole("link", { name: "Bob", exact: true }),
+    ).toBeVisible();
     await alice.getByRole("button", { name: "Remove friend" }).click();
     await alice.getByRole("button", { name: "Keep connection" }).click();
     await expect(
@@ -222,4 +227,15 @@ test("real friends can connect, view lists, save films and disconnect", async ({
     await a.close();
     await b.close();
   }
+});
+
+test.beforeEach(async ({ page }) => {
+  await page.route("**/api/friends/interest?*", (route) => {
+    const ids = new URL(route.request().url()).searchParams
+      .get("filmIds")!
+      .split(",");
+    return route.fulfill({
+      json: { films: ids.map((filmId) => ({ filmId, friends: [] })) },
+    });
+  });
 });

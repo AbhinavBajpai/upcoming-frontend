@@ -1,3 +1,4 @@
+import { InterestProvider } from "../interest/InterestProvider";
 import { useId } from "react";
 import { sortedStars, type StarredFilm } from "./api";
 import { FilmCard } from "../components/FilmCard";
@@ -5,7 +6,7 @@ export function WatchListSections({ films }: { films: StarredFilm[] }) {
   const sorted = sortedStars(films);
   const prefix = useId();
   return (
-    <>
+    <InterestProvider filmIds={films.map((f) => f.id)}>
       {(["upcoming", "released", "tbc"] as const).map((section) => {
         const entries = sorted.filter((f) => f.section === section);
         if (!entries.length) return null;
@@ -40,6 +41,6 @@ export function WatchListSections({ films }: { films: StarredFilm[] }) {
           </section>
         );
       })}
-    </>
+    </InterestProvider>
   );
 }

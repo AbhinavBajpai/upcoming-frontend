@@ -1,3 +1,4 @@
+import { FriendInterest } from "../interest/FriendInterest";
 import { useId, useState } from "react";
 import { Film, ExternalLink } from "lucide-react";
 import { dateLabel } from "../calendar/api";
@@ -65,6 +66,7 @@ export function FilmCard({
         <div className="film-primary-action">
           <StarButton film={film} />
         </div>
+        <FriendInterest filmId={film.id} title={film.title} />
         <div className="film-links">
           {film.imdbId ? (
             <a

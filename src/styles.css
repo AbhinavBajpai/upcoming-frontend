@@ -1229,3 +1229,65 @@ footer {
     padding-top: 35px;
   }
 }
+
+.friend-interest {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+  margin-top: 14px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  background: #65405b;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+.friend-interest > svg {
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
+}
+.friend-interest p {
+  min-width: 0;
+  margin: 0;
+}
+.friend-interest a {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.friend-interest details {
+  min-width: 0;
+}
+.friend-interest summary {
+  cursor: pointer;
+}
+.friend-interest ul {
+  margin: 8px 0 0;
+  padding-left: 18px;
+}
+.friend-interest li + li {
+  margin-top: 5px;
+}
+.friend-interest summary:focus-visible,
+.friend-interest a:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+.interest-error {
+  font-size: 13px;
+  color: #637164;
+  line-height: 1.6;
+}
+.interest-error button {
+  border: 0;
+  background: none;
+  color: #245544;
+  padding: 8px;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}

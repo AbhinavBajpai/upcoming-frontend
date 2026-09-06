@@ -1,3 +1,4 @@
+import { socialChanges } from "../interest/events";
 import { starredListSchema, type Film, type StarredFilm } from "./api";
 export function createStarState(userId: string | undefined) {
   let snapshot = {
@@ -52,6 +53,7 @@ export function createStarState(userId: string | undefined) {
           ? "upcoming"
           : "released",
     };
+    const finishSocialChange = socialChanges.begin();
     version++;
     inFlight.add(film.id);
     update({
@@ -91,6 +93,7 @@ export function createStarState(userId: string | undefined) {
           error: `We couldn’t save the change to “${film.title}”. Please try again.`,
         });
     } finally {
+      finishSocialChange();
       inFlight.delete(film.id);
       if (active) {
         update({ pending: new Set(inFlight) });
