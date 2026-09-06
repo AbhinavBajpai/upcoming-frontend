@@ -1,7 +1,19 @@
 :root {
+  --ui-accent: #7f0cb0;
+  --ui-accent-hover: #64078d;
+  --ui-page: #faf7fc;
+  --ui-surface: #ffffff;
+  --ui-surface-tint: #f5edf9;
+  --ui-accent-soft: #edddf5;
+  --ui-accent-soft-hover: #e3c7f0;
+  --ui-border: #e0d2e8;
+  --ui-control-border: #a38bad;
+  --ui-ink: #302038;
+  --ui-muted: #716078;
+  --ui-disabled: #9a8fa0;
   font-family: "DM Sans", sans-serif;
-  color: #213d34;
-  background: #f8f7f2;
+  color: var(--ui-ink);
+  background: var(--ui-page);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -24,7 +36,7 @@ a {
 }
 a:focus-visible,
 button:focus-visible {
-  outline: 3px solid #ad681c;
+  outline: 3px solid var(--ui-accent);
   outline-offset: 5px;
   border-radius: 5px;
 }
@@ -36,7 +48,7 @@ main:focus {
   top: -100px;
   left: 20px;
   z-index: 20;
-  background: #174d3d;
+  background: var(--ui-accent);
   color: white;
   padding: 12px 20px;
 }
@@ -44,8 +56,8 @@ main:focus {
   top: 10px;
 }
 .site-header {
-  border-bottom: 1px solid #dfe3da;
-  background: #f8f7f2;
+  border-bottom: 1px solid var(--ui-border);
+  background: var(--ui-page);
 }
 .header-inner {
   max-width: 1160px;
@@ -66,11 +78,11 @@ main:focus {
   letter-spacing: -1.2px;
 }
 .brand-dot {
-  color: #a86d27;
+  color: var(--ui-accent);
 }
 .brand-mark {
-  background: #174d3d;
-  color: #faf8ec;
+  background: var(--ui-accent);
+  color: var(--ui-surface);
   width: 34px;
   height: 37px;
   border-radius: 10px;
@@ -85,7 +97,7 @@ main:focus {
 }
 .brand-mark > span {
   position: absolute;
-  background: #e6b66b;
+  background: #f6bd9b;
   width: 7px;
   height: 7px;
   border-radius: 50%;
@@ -104,15 +116,15 @@ nav a {
   padding: 10px 16px;
   font-size: 14px;
   font-weight: 600;
-  color: #637167;
+  color: var(--ui-muted);
   border-radius: 7px;
 }
 nav a:hover {
-  background: #efeee5;
+  background: var(--ui-accent-soft);
 }
 nav a.active {
-  background: #e7ece2;
-  color: #194d3c;
+  background: var(--ui-accent);
+  color: var(--ui-surface);
 }
 .edition {
   display: flex;
@@ -128,7 +140,7 @@ nav a.active {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: #a56729;
+  background: var(--ui-accent);
 }
 main {
   max-width: 1160px;
@@ -147,7 +159,7 @@ main {
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 2px;
-  color: #637164;
+  color: var(--ui-muted);
   margin: 0 0 20px;
   display: flex;
   align-items: center;
@@ -164,25 +176,25 @@ h1 {
 h1 em {
   font-family: Georgia, serif;
   font-weight: 400;
-  color: #27654e;
+  color: var(--ui-accent);
   letter-spacing: -2px;
 }
 .intro-copy {
   font-size: 15px;
   line-height: 1.85;
-  color: #647268;
+  color: var(--ui-muted);
   margin: 24px 0 0;
 }
 .ticket {
   width: 300px;
   flex-shrink: 0;
-  background: #e9eddc;
-  border: 1px solid #d8ddc7;
+  background: var(--ui-surface-tint);
+  border: 1px solid var(--ui-border);
   transform: rotate(5deg);
   border-radius: 12px;
-  box-shadow: 7px 10px 0 #eae8de;
+  box-shadow: 7px 10px 0 var(--ui-border);
   padding: 22px;
-  color: #31583f;
+  color: var(--ui-accent);
 }
 .ticket-top {
   display: flex;
@@ -202,7 +214,7 @@ h1 em {
   letter-spacing: -1px;
 }
 .ticket-bottom {
-  border-top: 1px dashed #a8b394;
+  border-top: 1px dashed var(--ui-control-border);
   padding-top: 19px;
   display: flex;
   align-items: center;
@@ -212,7 +224,7 @@ h1 em {
   font-weight: 700;
 }
 .calendar {
-  border-top: 1px solid #d9ded3;
+  border-top: 1px solid var(--ui-border);
   padding-top: 30px;
 }
 .section-heading {
@@ -235,8 +247,8 @@ h2 {
 }
 .empty-state {
   text-align: center;
-  background: #f1f2e9;
-  border: 1px solid #e0e4d7;
+  background: var(--ui-surface-tint);
+  border: 1px solid var(--ui-border);
   border-radius: 12px;
   padding: 38px 24px 32px;
 }
@@ -244,13 +256,13 @@ h2 {
   margin: 0 auto 17px;
   width: 56px;
   height: 56px;
-  background: #e4eada;
-  border: 1px solid #d5dfcc;
+  background: var(--ui-accent-soft);
+  border: 1px solid var(--ui-border);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: #557b5a;
+  color: var(--ui-accent);
 }
 .empty-state h3,
 .empty-state h2 {
@@ -262,7 +274,7 @@ h2 {
 }
 .empty-state p {
   font-size: 14px;
-  color: #667366;
+  color: var(--ui-muted);
   line-height: 1.8;
   margin: 0 auto;
   max-width: 390px;
@@ -272,7 +284,7 @@ h2 {
   font-size: 9px;
   letter-spacing: 1.6px;
   text-transform: uppercase;
-  color: #66715e;
+  color: var(--ui-muted);
   margin-top: 22px;
 }
 .how-it-works {
@@ -287,7 +299,7 @@ h2 {
   align-items: baseline;
 }
 .step {
-  color: #8e6c3e;
+  color: var(--ui-accent);
   font-family: Georgia, serif;
   font-size: 15px;
 }
@@ -298,19 +310,19 @@ h2 {
 }
 .how-it-works p {
   font-size: 11px;
-  color: #667366;
+  color: var(--ui-muted);
   margin: 0;
 }
 footer {
   max-width: 1088px;
   margin: auto;
-  border-top: 1px solid #dfe3da;
+  border-top: 1px solid var(--ui-border);
   padding: 24px 0 30px;
   display: flex;
   justify-content: space-between;
   gap: 20px;
   font-size: 10px;
-  color: #6b766c;
+  color: var(--ui-muted);
 }
 footer > span:last-child {
   display: flex;
@@ -332,7 +344,7 @@ footer > span:last-child {
   font-weight: 600;
   font-size: 13px;
   margin-top: 24px;
-  color: #245940;
+  color: var(--ui-accent);
 }
 .text-link:hover {
   text-decoration: underline;
@@ -515,8 +527,9 @@ button:disabled {
   cursor: default;
   opacity: 0.45;
 }
-input:focus-visible {
-  outline: 3px solid #ad681c;
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--ui-accent);
   outline-offset: 4px;
 }
 .calendar-toolbar {
@@ -533,10 +546,10 @@ input:focus-visible {
 }
 .icon-button,
 .month-today {
-  border: 1px solid #d8dfd2;
+  border: 1px solid var(--ui-border);
   border-radius: 7px;
-  background: #f4f5ed;
-  color: #31583f;
+  background: var(--ui-surface-tint);
+  color: var(--ui-accent);
   min-height: 44px;
 }
 .icon-button {
@@ -552,18 +565,18 @@ input:focus-visible {
 }
 .icon-button:hover:enabled,
 .month-today:hover:enabled {
-  background: #e7ece2;
+  background: var(--ui-accent-soft);
 }
 .title-filter {
   display: flex;
   align-items: center;
   gap: 10px;
-  border: 1px solid #d8dfd2;
+  border: 1px solid var(--ui-border);
   border-radius: 7px;
   padding: 0 12px;
   height: 44px;
-  background: #fffef9;
-  color: #647268;
+  background: var(--ui-surface);
+  color: var(--ui-muted);
   width: 320px;
   max-width: 100%;
 }
@@ -572,7 +585,7 @@ input:focus-visible {
   min-width: 0;
   border: 0;
   background: transparent;
-  color: #213d34;
+  color: var(--ui-ink);
   font-size: 13px;
 }
 .title-filter input::-webkit-search-cancel-button {
@@ -582,14 +595,14 @@ input:focus-visible {
   border: 0;
   padding: 5px;
   background: transparent;
-  color: #31583f;
+  color: var(--ui-accent);
   display: flex;
 }
 .calendar-summary {
   display: flex;
   justify-content: space-between;
   gap: 16px;
-  color: #667366;
+  color: var(--ui-muted);
   font-size: 12px;
   margin: 20px 0;
 }
@@ -602,12 +615,12 @@ input:focus-visible {
   align-items: center;
   gap: 12px;
   min-height: 240px;
-  color: #647268;
+  color: var(--ui-muted);
 }
 .loading-dot {
   width: 8px;
   height: 8px;
-  background: #31583f;
+  background: var(--ui-accent);
   border-radius: 50%;
 }
 .calendar-notice {
@@ -618,7 +631,7 @@ input:focus-visible {
   border-radius: 7px;
 }
 .action-button {
-  background: #174d3d;
+  background: var(--ui-accent);
   color: #fff;
   border: 0;
   border-radius: 7px;
@@ -633,7 +646,7 @@ input:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid #dde2d6;
+  border-bottom: 1px solid var(--ui-border);
   padding: 0 0 10px;
   margin-bottom: 15px;
 }
@@ -644,7 +657,7 @@ input:focus-visible {
 }
 .date-heading > span {
   font-size: 11px;
-  color: #637164;
+  color: var(--ui-muted);
 }
 .film-grid {
   display: grid;
@@ -786,7 +799,7 @@ footer {
   display: flex;
   align-items: center;
   gap: 22px;
-  border-top: 1px solid #e2e5da;
+  border-top: 1px solid var(--ui-border);
   margin-top: 22px;
   padding-top: 22px;
   font-size: 11px;
@@ -849,7 +862,7 @@ footer {
 
 .film-links {
   padding-top: 10px;
-  border-top: 1px solid #e3e7dd;
+  border-top: 1px solid var(--ui-border);
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
@@ -872,12 +885,12 @@ footer {
 }
 
 .account-nav {
-  color: #245544;
+  color: var(--ui-accent);
   font-size: 14px;
   font-weight: 600;
   text-decoration: none;
   padding: 10px 14px;
-  border: 1px solid #cbd5c5;
+  border: 1px solid var(--ui-border);
   border-radius: 6px;
   white-space: nowrap;
 }
@@ -908,11 +921,11 @@ footer {
   width: 100%;
   min-width: 0;
   padding: 12px;
-  border: 1px solid #aebbaa;
-  background: #fffefa;
+  border: 1px solid var(--ui-control-border);
+  background: var(--ui-surface);
   border-radius: 6px;
   font: inherit;
-  color: #203e33;
+  color: var(--ui-ink);
 }
 .account-help {
   display: flex;
@@ -922,7 +935,7 @@ footer {
   font-size: 14px;
 }
 .account-page a {
-  color: #245544;
+  color: var(--ui-accent);
 }
 .account-error {
   padding: 12px;
@@ -932,8 +945,8 @@ footer {
 }
 .account-notice {
   padding: 12px;
-  border-left: 3px solid #245544;
-  background: #e6ecdf;
+  border-left: 3px solid var(--ui-accent);
+  background: var(--ui-accent-soft);
 }
 .field-hint {
   font-size: 12px;
@@ -942,7 +955,7 @@ footer {
 .account-password {
   margin-top: 45px;
   padding-top: 20px;
-  border-top: 1px solid #cbd5c5;
+  border-top: 1px solid var(--ui-border);
 }
 .account-page button:disabled {
   opacity: 0.6;
@@ -973,10 +986,10 @@ footer {
   min-height: 44px;
   max-width: 100%;
   padding: 10px 14px;
-  border: 1px solid #174d3d;
+  border: 1px solid var(--ui-accent);
   border-radius: 6px;
-  background: #174d3d;
-  color: #fffefa;
+  background: var(--ui-accent);
+  color: var(--ui-surface);
   font: inherit;
   font-size: 13px;
   font-weight: 600;
@@ -986,15 +999,15 @@ footer {
   flex-shrink: 0;
 }
 .film-save-button:hover {
-  background: #103c2f;
+  background: var(--ui-accent-hover);
 }
 .film-save-button.is-starred {
-  background: #e7eddc;
-  color: #315427;
-  border-color: #6c855f;
+  background: var(--ui-accent-soft);
+  color: var(--ui-accent);
+  border-color: var(--ui-control-border);
 }
 .film-save-button.is-starred:hover {
-  background: #dce6ce;
+  background: var(--ui-accent-soft-hover);
 }
 .film-save-button:disabled {
   opacity: 0.65;
@@ -1017,7 +1030,7 @@ footer {
 }
 .star-notice button {
   padding: 8px 12px;
-  background: #fffefa;
+  background: var(--ui-surface);
   color: #742828;
   border: 1px solid currentColor;
   border-radius: 4px;
@@ -1035,7 +1048,7 @@ footer {
 .starred-page h1 em {
   font-family: Georgia, serif;
   font-weight: 400;
-  color: #28684f;
+  color: var(--ui-accent);
 }
 .starred-section {
   margin: 35px 0;
@@ -1056,8 +1069,8 @@ footer {
   margin-bottom: 30px;
 }
 .friend-share {
-  background: #eef3e5;
-  border: 1px solid #cbd7c1;
+  background: var(--ui-surface-tint);
+  border: 1px solid var(--ui-border);
   border-radius: 12px;
   padding: 24px;
   margin: 28px 0 40px;
@@ -1084,11 +1097,11 @@ footer {
   flex: 1;
   min-width: 0;
   padding: 12px;
-  border: 1px solid #aebbaa;
+  border: 1px solid var(--ui-control-border);
   border-radius: 6px;
-  background: #fffefa;
+  background: var(--ui-surface);
   font: inherit;
-  color: #203e33;
+  color: var(--ui-ink);
 }
 .friend-primary,
 .friend-secondary,
@@ -1099,10 +1112,10 @@ footer {
   gap: 8px;
   min-height: 44px;
   padding: 10px 14px;
-  border: 1px solid #174d3d;
+  border: 1px solid var(--ui-accent);
   border-radius: 6px;
-  background: #174d3d;
-  color: #fffefa;
+  background: var(--ui-accent);
+  color: var(--ui-surface);
   font: inherit;
   font-size: 14px;
   font-weight: 600;
@@ -1110,18 +1123,18 @@ footer {
 }
 .friend-secondary {
   background: transparent;
-  color: #245544;
-  border-color: #b7c4ae;
+  color: var(--ui-accent);
+  border-color: var(--ui-control-border);
 }
 .friend-danger {
   background: #8a352d;
   border-color: #8a352d;
 }
 .friend-primary:hover {
-  background: #103c2f;
+  background: var(--ui-accent-hover);
 }
 .friend-secondary:hover {
-  background: #e7eddc;
+  background: var(--ui-accent-soft);
 }
 .friend-section {
   margin: 40px 0;
@@ -1130,12 +1143,12 @@ footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #dfe3d8;
+  border-bottom: 1px solid var(--ui-border);
   gap: 12px;
 }
 .friend-section-heading span,
 .friend-empty {
-  color: #637164;
+  color: var(--ui-muted);
 }
 .friend-empty {
   padding: 16px 0;
@@ -1151,14 +1164,14 @@ footer {
 .friend-card {
   display: flex;
   gap: 16px;
-  background: #fffef9;
-  border: 1px solid #dfe3d8;
+  background: var(--ui-surface);
+  border: 1px solid var(--ui-border);
   border-radius: 10px;
   padding: 20px;
 }
 .friend-avatar {
-  background: #e5ebdc;
-  color: #42663e;
+  background: var(--ui-accent-soft);
+  color: var(--ui-accent);
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -1175,10 +1188,10 @@ footer {
   overflow-wrap: anywhere;
 }
 .friend-details a {
-  color: #174d3d;
+  color: var(--ui-accent);
 }
 .friend-details p {
-  color: #637164;
+  color: var(--ui-muted);
   font-size: 14px;
   line-height: 1.6;
 }
@@ -1194,9 +1207,9 @@ footer {
 .friend-profile {
   margin-top: 28px;
   padding: 24px;
-  border: 1px solid #dfe3d8;
+  border: 1px solid var(--ui-border);
   border-radius: 12px;
-  background: #fffef9;
+  background: var(--ui-surface);
 }
 .friend-profile h2 {
   overflow-wrap: anywhere;
@@ -1236,7 +1249,7 @@ footer {
   margin-top: 14px;
   padding: 12px 14px;
   border-radius: 8px;
-  background: #65405b;
+  background: var(--ui-accent);
   color: #fff;
   font-size: 13px;
   font-weight: 600;
@@ -1278,13 +1291,13 @@ footer {
 }
 .interest-error {
   font-size: 13px;
-  color: #637164;
+  color: var(--ui-muted);
   line-height: 1.6;
 }
 .interest-error button {
   border: 0;
   background: none;
-  color: #245544;
+  color: var(--ui-accent);
   padding: 8px;
   font: inherit;
   text-decoration: underline;
@@ -1304,9 +1317,9 @@ footer {
 }
 .watch-tbc,
 .watch-month-select select {
-  background: #f4f6ef;
-  color: #245544;
-  border: 1px solid #cbd5c5;
+  background: var(--ui-surface-tint);
+  color: var(--ui-accent);
+  border: 1px solid var(--ui-border);
   border-radius: 6px;
   min-height: 44px;
   padding: 8px 12px;
@@ -1316,7 +1329,7 @@ footer {
   cursor: pointer;
 }
 .watch-tbc[aria-pressed="true"] {
-  background: #245544;
+  background: var(--ui-accent);
   color: white;
 }
 .watch-month-select {
@@ -1341,9 +1354,9 @@ footer {
     flex-direction: column;
     align-items: center;
     z-index: 5;
-    border: 1px solid #d7ded0;
+    border: 1px solid var(--ui-border);
     border-radius: 16px;
-    background: #f7f8f1;
+    background: var(--ui-surface-tint);
     touch-action: none;
     user-select: none;
     cursor: ns-resize;
@@ -1360,18 +1373,18 @@ footer {
     border-radius: 8px;
   }
   .date-available {
-    color: #245544;
+    color: var(--ui-accent);
     font-weight: 700;
   }
   .date-empty {
-    color: #90978d;
+    color: var(--ui-disabled);
   }
   .date-rail .date-selected {
     color: white;
-    background: #65405b;
+    background: var(--ui-accent);
   }
   .date-rail:focus-visible {
-    outline: 3px solid #65405b;
+    outline: 3px solid var(--ui-accent);
     outline-offset: 1px;
   }
   .watch-month-select {
@@ -1466,9 +1479,9 @@ h1.page-heading {
 .other-month-matches {
   margin: 18px 0 24px;
   padding: 16px;
-  border: 1px solid #cbd5c5;
+  border: 1px solid var(--ui-border);
   border-radius: 4px;
-  background: #f0f2e9;
+  background: var(--ui-surface-tint);
 }
 .other-month-matches h3 {
   margin: 0 0 10px;
@@ -1480,7 +1493,7 @@ h1.page-heading {
   padding: 0;
 }
 .other-month-matches li + li {
-  border-top: 1px solid #d8ded1;
+  border-top: 1px solid var(--ui-border);
 }
 .other-month-matches a {
   display: flex;
@@ -1490,7 +1503,7 @@ h1.page-heading {
   align-items: center;
   min-height: 44px;
   padding: 8px 0;
-  color: #245544;
+  color: var(--ui-accent);
 }
 .other-month-matches a > span {
   font-weight: 600;
@@ -1508,7 +1521,7 @@ h1.page-heading {
 }
 .other-month-status button {
   font: inherit;
-  color: #245544;
+  color: var(--ui-accent);
   background: transparent;
   border: 0;
   padding: 8px;
