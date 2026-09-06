@@ -118,7 +118,6 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
       >
         <div className="section-heading">
           <div>
-            <p className="eyebrow">IN UK CINEMAS</p>
             <h2 id="calendar-title">{monthLabel(month)}</h2>
           </div>
           <span className="country">
@@ -190,8 +189,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
             </p>
             {!data.monthSynced && (
               <p className="calendar-notice">
-                We’re still gathering release dates for this month. Check back
-                soon.
+                Release dates for this month have not been updated yet.
               </p>
             )}
             {visible.length === 0 ? (
@@ -208,12 +206,12 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                     ? "No titles match your search."
                     : data.monthSynced
                       ? "No releases listed for this month."
-                      : "Good films are on their way."}
+                      : "Release dates have not been loaded yet."}
                 </h3>
                 <p>
                   {filter
                     ? "Try a different title, or clear the filter."
-                    : "You can explore another month while we keep an eye on what’s coming."}
+                    : "Select another month to view releases."}
                 </p>
                 {filter && (
                   <button

@@ -11,14 +11,7 @@ import {
   Routes,
   useLocation,
 } from "react-router-dom";
-import {
-  ArrowUpRight,
-  CalendarDays,
-  Film,
-  Sparkles,
-  Star,
-  Users,
-} from "lucide-react";
+import { ArrowUpRight, CalendarDays, Star, Users } from "lucide-react";
 
 import { AccountProvider } from "./accounts/AccountProvider";
 import { AccountPage } from "./accounts/AccountPage";
@@ -34,62 +27,10 @@ const pages = [
 function Releases({ active }: { active: boolean }) {
   return (
     <>
-      <section className="intro" aria-labelledby="page-title">
-        <div>
-          <p className="eyebrow">
-            <span /> THE BIG SCREEN, ON YOUR RADAR
-          </p>
-          <h1 id="page-title">
-            Make time
-            <br />
-            for <em>cinema.</em>
-          </h1>
-          <p className="intro-copy">
-            The films on their way. The ones you can’t wait for.
-            <br className="desktop-break" /> A little more to look forward to.
-          </p>
-        </div>
-        <div className="ticket" aria-hidden="true">
-          <div className="ticket-top">
-            <Film size={22} />
-            <span>ADMIT YOURSELF</span>
-            <Sparkles size={18} />
-          </div>
-          <div className="ticket-title">
-            Something
-            <br />
-            worth seeing.
-          </div>
-          <div className="ticket-bottom">
-            <span>GOOD FILMS. GREAT COMPANY.</span>
-            <ArrowUpRight size={23} />
-          </div>
-        </div>
-      </section>
+      <h1 className="page-heading" id="page-title">
+        Releases
+      </h1>
       <ReleaseCalendar active={active} />
-      <div className="how-it-works" aria-label="What you can look forward to">
-        <div>
-          <span className="step">01</span>
-          <div>
-            <h3>Find your next film</h3>
-            <p>A month at a time. A world to discover.</p>
-          </div>
-        </div>
-        <div>
-          <span className="step">02</span>
-          <div>
-            <h3>Keep the good ones close</h3>
-            <p>Star the films you don’t want to miss.</p>
-          </div>
-        </div>
-        <div>
-          <span className="step">03</span>
-          <div>
-            <h3>Make a night of it</h3>
-            <p>See what your friends want to watch.</p>
-          </div>
-        </div>
-      </div>
     </>
   );
 }
@@ -196,10 +137,7 @@ function AppContent() {
             path="*"
             element={
               <section className="personal-page">
-                <h1>
-                  Lost the <em>plot?</em>
-                </h1>
-                <p>That page isn’t here.</p>
+                <h1 className="page-heading">Page not found</h1>
                 <Link className="text-link" to="/releases">
                   Back to releases <ArrowUpRight size={17} />
                 </Link>
@@ -209,12 +147,6 @@ function AppContent() {
         </Routes>
       </main>
       <footer>
-        <div className="footer-top">
-          <span>Less scrolling. More cinema.</span>
-          <span>
-            Made for the love of film <Film size={14} />
-          </span>
-        </div>
         <section className="credits" aria-label="About and credits">
           <a href="https://www.themoviedb.org" aria-label="The Movie Database">
             {isAccountPage ? (

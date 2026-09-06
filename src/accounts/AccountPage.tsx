@@ -10,12 +10,12 @@ type Mode =
   | "reset-password"
   | "account";
 const titles: Record<Mode, string> = {
-  login: "Welcome back.",
-  signup: "Make yourself at home.",
-  "verify-email": "Check your inbox.",
+  login: "Sign in",
+  signup: "Create account",
+  "verify-email": "Verify your email",
   "forgot-password": "Forgot your password?",
-  "reset-password": "A fresh start.",
-  account: "Your account.",
+  "reset-password": "Reset password",
+  account: "Account",
 };
 export function AccountPage({ mode }: { mode: Mode }) {
   const location = useLocation(),
@@ -150,7 +150,7 @@ export function AccountPage({ mode }: { mode: Mode }) {
   if (mode === "account" && !user)
     return (
       <section className="account-page">
-        <h1>Your account.</h1>
+        <h1 className="page-heading">Account</h1>
         <p>Please sign in to manage your account.</p>
         <Link className="action-button" to="/login">
           Sign in
@@ -167,8 +167,9 @@ export function AccountPage({ mode }: { mode: Mode }) {
   const invalidReset = mode === "reset-password" && !token;
   return (
     <section className="account-page" aria-labelledby="account-title">
-      <p className="eyebrow">YOUR UPCOMING</p>
-      <h1 id="account-title">{titles[mode]}</h1>
+      <h1 className="page-heading" id="account-title">
+        {titles[mode]}
+      </h1>
       {mode === "signup" && (
         <p>A few details, then we’ll send a link to verify your email.</p>
       )}

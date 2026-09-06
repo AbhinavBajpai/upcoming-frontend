@@ -1410,3 +1410,11 @@ footer {
   filter: grayscale(1);
   opacity: 0.5;
 }
+
+/* Plain, compact page titles across browsing and account screens. */
+h1.page-heading {
+  font-size: 32px;
+  line-height: 1.2;
+  letter-spacing: -0.8px;
+  margin: 0 0 28px;
+}

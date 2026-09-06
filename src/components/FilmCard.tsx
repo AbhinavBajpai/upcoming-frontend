@@ -48,9 +48,6 @@ export function FilmCard({
     >
       <Poster key={`${film.id}-${film.posterPath}`} film={film} />
       <div className="film-info">
-        <p className="film-category">
-          {film.isRevival ? "BACK ON THE BIG SCREEN" : "UK CINEMA RELEASE"}
-        </p>
         <h4 id={headingId}>{film.title}</h4>
         <p className="film-release">
           {film.isRevival ? "Theatrical revival" : "In cinemas"} ·{" "}
