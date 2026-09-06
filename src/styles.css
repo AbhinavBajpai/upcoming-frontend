@@ -745,6 +745,8 @@ input:focus-visible {
   font-weight: 400;
   font-size: 30px;
   line-height: 1;
+  background: var(--ticket-ink);
+  color: var(--ticket-paper);
 }
 .film-info {
   min-width: 0;
@@ -1455,7 +1457,7 @@ h1.page-heading {
     padding: 18px 12px;
   }
   .ticket-date strong {
-  font-weight: 400;
+    font-weight: 400;
     font-size: 25px;
   }
   .ticket-date {
