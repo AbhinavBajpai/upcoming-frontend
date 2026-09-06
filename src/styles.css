@@ -668,9 +668,9 @@ input:focus-visible {
   gap: 14px;
 }
 .film-card {
-  --ticket-paper: #f4d3a5;
-  --ticket-ink: #3e3024;
-  --ticket-rule: #a27c52;
+  --ticket-paper: #f6bd9b;
+  --ticket-ink: #532f37;
+  --ticket-rule: #a56b66;
   --ticket-stub: 102px;
   position: relative;
   display: grid;
@@ -772,21 +772,11 @@ input:focus-visible {
   color: var(--ticket-ink);
   margin: 12px 0 0;
 }
-.release-day-past .film-card,
-.film-card.film-past {
-  --ticket-paper: #eee9de;
-  --ticket-ink: #645e53;
-  --ticket-rule: #a19a89;
-}
-.release-day-past .poster,
-.film-past .poster img {
-  filter: grayscale(0.8);
-}
 .film-card.film-card-starred {
-  --ticket-paper: #e2e9ce;
-  --ticket-ink: #294a32;
-  --ticket-rule: #688052;
-  box-shadow: inset 4px 0 0 #547b42;
+  --ticket-paper: #b9dce8;
+  --ticket-ink: #173f59;
+  --ticket-rule: #548397;
+  box-shadow: inset 4px 0 0 var(--ticket-ink);
 }
 .film-card .film-save-button,
 .film-card .friend-interest {
@@ -1470,4 +1460,21 @@ h1.page-heading {
     padding: 10px;
     gap: 6px;
   }
+}
+
+.film-card .film-save-button {
+  color: var(--ticket-paper);
+  background: var(--ticket-ink);
+  border-color: var(--ticket-ink);
+}
+.film-card .film-save-button.is-starred {
+  color: var(--ticket-ink);
+  background: transparent;
+  border-color: var(--ticket-ink);
+}
+.film-card .film-save-button:hover {
+  color: var(--ticket-paper);
+  background: var(--ticket-ink);
+  outline: 1px solid var(--ticket-ink);
+  outline-offset: 2px;
 }
