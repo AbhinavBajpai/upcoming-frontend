@@ -701,13 +701,6 @@ input:focus-visible {
     );
   mask-composite: intersect;
 }
-.film-card::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border: 1px solid var(--ticket-rule);
-  pointer-events: none;
-}
 .film-stub {
   display: flex;
   flex-direction: column;
