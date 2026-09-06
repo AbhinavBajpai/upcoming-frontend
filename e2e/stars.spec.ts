@@ -86,7 +86,7 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
     page.getByRole("heading", { name: "Nebula", exact: true }),
   ).toHaveCount(0);
   await page
-    .getByRole("button", { name: "Back to month", exact: true })
+    .getByRole("button", { name: "Back to list", exact: true })
     .click();
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
   await page.screenshot({
