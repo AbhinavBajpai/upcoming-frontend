@@ -24,17 +24,6 @@ const pages = [
   { to: "/friends", label: "Friends", icon: Users },
 ];
 
-function Releases({ active }: { active: boolean }) {
-  return (
-    <>
-      <h1 className="page-heading" id="page-title">
-        Releases
-      </h1>
-      <ReleaseCalendar active={active} />
-    </>
-  );
-}
-
 export function App() {
   return (
     <AccountProvider>
@@ -58,20 +47,33 @@ function AppContent() {
   ].includes(location.pathname);
   const mainRef = useRef<HTMLElement>(null);
   const previousPath = useRef(location.pathname);
-  useEffect(() => {
-    const page = pages.find(
+  const pageLabel =
+    pages.find(
       (p) =>
         p.to === location.pathname ||
         (p.to === "/friends" && location.pathname.startsWith("/friends/")),
-    );
-    document.title = `${page?.label ?? "Upcoming"} · Upcoming`;
+    )?.label ??
+    (
+      {
+        "/": "Releases",
+        "/login": "Sign in",
+        "/signup": "Create account",
+        "/verify-email": "Verify your email",
+        "/forgot-password": "Forgot password",
+        "/reset-password": "Reset password",
+        "/account": "Account",
+      } as Record<string, string>
+    )[location.pathname] ??
+    "Page not found";
+  useEffect(() => {
+    document.title = `${pageLabel} · Upcoming`;
     if (previousPath.current !== location.pathname) {
       mainRef.current?.focus({ preventScroll: true });
       if (location.pathname !== "/releases" && location.pathname !== "/")
         window.scrollTo({ top: 0, behavior: "instant" });
       previousPath.current = location.pathname;
     }
-  }, [location.pathname, isAccountPage]);
+  }, [location.pathname, pageLabel]);
   return (
     <>
       <a className="skip-link" href="#main-content">
@@ -98,14 +100,19 @@ function AppContent() {
           </Link>
         </div>
       </header>
-      <main id="main-content" ref={mainRef} tabIndex={-1}>
+      <main
+        id="main-content"
+        aria-label={pageLabel}
+        ref={mainRef}
+        tabIndex={-1}
+      >
         {!isAccountPage && <StarNotice />}
         <div
           hidden={
             location.pathname !== "/" && location.pathname !== "/releases"
           }
         >
-          <Releases
+          <ReleaseCalendar
             active={
               location.pathname === "/" || location.pathname === "/releases"
             }

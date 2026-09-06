@@ -82,7 +82,7 @@ describe("release calendar", () => {
     fireEvent.change(screen.getByRole("searchbox"), {
       target: { value: "not a film" },
     });
-    expect(screen.getByText("No titles match your search.")).toBeVisible();
+    expect(screen.getByText("No titles match in this month.")).toBeVisible();
     fireEvent.click(screen.getByRole("button", { name: "Show all films" }));
     fireEvent.click(screen.getByRole("button", { name: "Next month" }));
     await screen.findByRole("heading", { name: "The Devils" });

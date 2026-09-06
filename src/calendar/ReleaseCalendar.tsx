@@ -1,9 +1,11 @@
+import { useLocation, useNavigate, useNavigationType } from "react-router-dom";
+import { OtherMonthMatches } from "./OtherMonthMatches";
 import { DateRail } from "./DateRail";
 import { MonthControls } from "./MonthControls";
 import { InterestProvider } from "../interest/InterestProvider";
 import { FilmCard } from "../components/FilmCard";
-import { useEffect, useRef, useState } from "react";
-import { CalendarDays, MapPin, Search, X } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { CalendarDays, Search, X } from "lucide-react";
 import {
   currentUkMonth,
   dateLabel,
@@ -18,8 +20,40 @@ type Result =
   | { month: string; error: true; data?: never };
 
 export function ReleaseCalendar({ active }: { active: boolean }) {
-  const [month, setMonth] = useState(currentUkMonth);
-  const [filter, setFilter] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const navigationType = useNavigationType();
+  const params = new URLSearchParams(location.search);
+  const requestedMonth = params.get("month") ?? "";
+  const routeMonth = /^(19|[2-9]\d)\d{2}-(0[1-9]|1[0-2])$/.test(requestedMonth)
+    ? requestedMonth
+    : currentUkMonth();
+  const [month, setMonth] = useState(routeMonth);
+  const [filter, setFilter] = useState(() =>
+    (params.get("q") ?? "").slice(0, 200),
+  );
+  const [routeKey, setRouteKey] = useState(location.key);
+  // Apply URL navigation before rendering the new list. Bare app-tab links retain
+  // the mounted calendar's selection; suggestion links and Back carry explicit state.
+  if (active && routeKey !== location.key) {
+    setRouteKey(location.key);
+    if (location.search || navigationType === "POP") {
+      setMonth(routeMonth);
+      setFilter((params.get("q") ?? "").slice(0, 200));
+    }
+  }
+  useEffect(() => {
+    // A bare tab link may restore a previous selection. Record it in that history
+    // entry so Back can distinguish it from a fresh, unfiltered current month.
+    if (active && !location.search && (month !== currentUkMonth() || filter)) {
+      navigate(`/releases?${new URLSearchParams({ month, q: filter })}`, {
+        replace: true,
+      });
+    }
+  }, [active, location.search, month, filter, navigate]);
+  const targetFilm = active ? params.get("film") : null;
+  const [settledSearch, setSettledSearch] = useState<string | null>(null);
+  const searchSettled = useCallback((key: string) => setSettledSearch(key), []);
   const [attempt, setAttempt] = useState(0);
   const [result, setResult] = useState<Result | null>(null);
   const calendarRef = useRef<HTMLElement>(null);
@@ -52,7 +86,28 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
       return;
     }
     if (!data) return;
+    // Wait for suggestions above the list to settle before positioning a deep-linked card.
+    if (
+      targetFilm &&
+      filter.trim() &&
+      settledSearch !== JSON.stringify([filter.trim(), month])
+    )
+      return;
     const frame = requestAnimationFrame(() => {
+      if (targetFilm) {
+        const card = [
+          ...(calendarRef.current?.querySelectorAll<HTMLElement>(
+            "[data-film-id]",
+          ) ?? []),
+        ].find((element) => element.dataset.filmId === targetFilm);
+        if (card) {
+          card.scrollIntoView({ block: "start", behavior: "instant" });
+          card.focus({ preventScroll: true });
+          processedMonth.current = month;
+          returning.current = false;
+          return;
+        }
+      }
       if (processedMonth.current === month && !returning.current) return;
       const saved = positions.current.get(month);
       if (saved !== undefined)
@@ -71,7 +126,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
       returning.current = false;
     });
     return () => cancelAnimationFrame(frame);
-  }, [active, data, month, filter]);
+  }, [active, data, month, filter, targetFilm, location.key, settledSearch]);
 
   useEffect(() => {
     if (!active) return;
@@ -102,8 +157,13 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
     (date) => data && date >= data.today,
   );
   function changeMonth(next: string) {
-    setMonth(next);
-    setFilter("");
+    navigate(`/releases?${new URLSearchParams({ month: next })}`);
+  }
+  function changeFilter(value: string) {
+    setFilter(value);
+    navigate(`/releases?${new URLSearchParams({ month, q: value })}`, {
+      replace: true,
+    });
   }
   function retry() {
     setResult(null);
@@ -120,9 +180,6 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
           <div>
             <h2 id="calendar-title">{monthLabel(month)}</h2>
           </div>
-          <span className="country">
-            <MapPin size={15} aria-hidden="true" /> United Kingdom
-          </span>
         </div>
         <div className="calendar-toolbar">
           <MonthControls
@@ -143,20 +200,27 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
               type="search"
               placeholder="Find a film this month…"
               value={filter}
-              onChange={(event) => setFilter(event.target.value)}
+              maxLength={200}
+              onChange={(event) => changeFilter(event.target.value)}
             />
             {filter && (
               <button
                 type="button"
                 className="clear-filter"
                 aria-label="Clear title filter"
-                onClick={() => setFilter("")}
+                onClick={() => changeFilter("")}
               >
                 <X size={17} />
               </button>
             )}
           </div>
         </div>
+        <OtherMonthMatches
+          query={filter}
+          month={month}
+          active={active}
+          onSettled={searchSettled}
+        />
         {loading && (
           <div className="calendar-loading" role="status">
             <span className="loading-dot" /> Loading this month’s films…
@@ -175,7 +239,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
           <>
             <p className="calendar-summary" role="status">
               {visible.length} {visible.length === 1 ? "film" : "films"}
-              {filter ? " matching your search" : " on the calendar"}
+              {filter ? " matching your search this month" : " on the calendar"}
               {data.lastSuccessfulSync && (
                 <span>
                   Updated{" "}
@@ -203,7 +267,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                 </div>
                 <h3>
                   {filter
-                    ? "No titles match your search."
+                    ? "No titles match in this month."
                     : data.monthSynced
                       ? "No releases listed for this month."
                       : "Release dates have not been loaded yet."}
@@ -217,7 +281,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                   <button
                     type="button"
                     className="action-button"
-                    onClick={() => setFilter("")}
+                    onClick={() => changeFilter("")}
                   >
                     Show all films
                   </button>
