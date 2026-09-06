@@ -5,7 +5,7 @@ import { MonthControls } from "./MonthControls";
 import { InterestProvider } from "../interest/InterestProvider";
 import { FilmCard } from "../components/FilmCard";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { CalendarDays, MapPin, Search, X } from "lucide-react";
+import { CalendarDays, Search, X } from "lucide-react";
 import {
   currentUkMonth,
   dateLabel,
@@ -180,9 +180,6 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
           <div>
             <h2 id="calendar-title">{monthLabel(month)}</h2>
           </div>
-          <span className="country">
-            <MapPin size={15} aria-hidden="true" /> United Kingdom
-          </span>
         </div>
         <div className="calendar-toolbar">
           <MonthControls

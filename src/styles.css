@@ -233,13 +233,6 @@ h2 {
   letter-spacing: -1px;
   margin: 0;
 }
-.country {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12px;
-  color: #647268;
-}
 .empty-state {
   text-align: center;
   background: #f1f2e9;
@@ -447,15 +440,6 @@ footer > span:last-child {
   }
   .section-heading h2 {
     font-size: 24px;
-  }
-  .country {
-    font-size: 0;
-    gap: 0;
-    margin-top: 22px;
-  }
-  .country svg {
-    width: 19px;
-    height: 19px;
   }
   .calendar {
     padding-top: 23px;
