@@ -37,6 +37,14 @@ test("suggestions navigate to a matching film and Back restores month/query", as
     });
   });
   await page.goto("/releases");
+  await page.getByRole("button", { name: "Next month", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "October 2026", exact: true }),
+  ).toBeVisible();
+  await page.goBack();
+  await expect(
+    page.getByRole("heading", { name: "September 2026", exact: true }),
+  ).toBeVisible();
   await page.getByRole("searchbox").fill("devils");
   await expect(
     page.getByText("No titles match your search.", { exact: true }),

@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useNavigationType } from "react-router-dom";
 import { OtherMonthMatches } from "./OtherMonthMatches";
 import { DateRail } from "./DateRail";
 import { MonthControls } from "./MonthControls";
@@ -22,6 +22,7 @@ type Result =
 export function ReleaseCalendar({ active }: { active: boolean }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
   const params = new URLSearchParams(location.search);
   const requestedMonth = params.get("month") ?? "";
   const routeMonth = /^(19|[2-9]\d)\d{2}-(0[1-9]|1[0-2])$/.test(requestedMonth)
@@ -36,11 +37,20 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
   // the mounted calendar's selection; suggestion links and Back carry explicit state.
   if (active && routeKey !== location.key) {
     setRouteKey(location.key);
-    if (location.search) {
+    if (location.search || navigationType === "POP") {
       setMonth(routeMonth);
       setFilter((params.get("q") ?? "").slice(0, 200));
     }
   }
+  useEffect(() => {
+    // A bare tab link may restore a previous selection. Record it in that history
+    // entry so Back can distinguish it from a fresh, unfiltered current month.
+    if (active && !location.search && (month !== currentUkMonth() || filter)) {
+      navigate(`/releases?${new URLSearchParams({ month, q: filter })}`, {
+        replace: true,
+      });
+    }
+  }, [active, location.search, month, filter, navigate]);
   const targetFilm = active ? params.get("film") : null;
   const [settledSearch, setSettledSearch] = useState<string | null>(null);
   const searchSettled = useCallback((key: string) => setSettledSearch(key), []);
