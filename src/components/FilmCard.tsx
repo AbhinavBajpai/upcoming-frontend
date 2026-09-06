@@ -1,6 +1,6 @@
 import { FriendInterest } from "../interest/FriendInterest";
 import { useId, useState } from "react";
-import { Film, ExternalLink } from "lucide-react";
+import { Film } from "lucide-react";
 import { dateLabel } from "../calendar/api";
 import type { Film as FilmData } from "../stars/api";
 import { StarButton } from "../stars/StarButton";
@@ -75,11 +75,10 @@ export function FilmCard({
               <img
                 className="imdb-logo"
                 src="/brands/imdb.svg"
-                width="40"
-                height="40"
+                width="22"
+                height="22"
                 alt=""
-              />{" "}
-              <ExternalLink size={13} aria-hidden="true" />
+              />
             </a>
           ) : (
             <span
@@ -90,8 +89,8 @@ export function FilmCard({
               <img
                 className="imdb-logo"
                 src="/brands/imdb.svg"
-                width="40"
-                height="40"
+                width="22"
+                height="22"
                 alt=""
               />
             </span>
@@ -105,11 +104,10 @@ export function FilmCard({
             <img
               className="letterboxd-logo"
               src="/brands/letterboxd.svg"
-              width="40"
-              height="40"
+              width="22"
+              height="22"
               alt=""
-            />{" "}
-            <ExternalLink size={13} aria-hidden="true" />
+            />
           </a>
         </div>
       </div>

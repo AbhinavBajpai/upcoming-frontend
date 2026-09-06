@@ -850,26 +850,15 @@ footer {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  min-height: 36px;
-  padding: 6px 10px;
-  border: 1px solid #cbd5c5;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+  width: 22px;
+  height: 22px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   text-decoration: none;
 }
-.film-links a {
-  color: #245544;
-  background: #f4f6ef;
-}
 .film-links a:hover {
-  background: #e6ecdf;
-  border-color: #245544;
-}
-.film-link-unavailable {
-  color: #6b746d;
-  border-style: dashed;
+  opacity: 0.7;
 }
 
 .account-nav {
@@ -1392,19 +1381,10 @@ footer {
     flex-wrap: wrap;
   }
 }
-.film-links a,
-.film-link-unavailable {
-  min-height: 44px;
-  padding: 4px 8px;
-}
 .film-links img {
   display: block;
-  width: 40px;
-  height: 40px;
-}
-.imdb-logo {
-  background: #f5c518;
-  border-radius: 5px;
+  width: 22px;
+  height: 22px;
 }
 .film-link-unavailable .imdb-logo {
   filter: grayscale(1);
