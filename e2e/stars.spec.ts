@@ -76,11 +76,18 @@ test("shared stars, failure rollback, retry, and released/TBC sections", async (
     page.getByRole("heading", { name: "Nebula", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Already released", exact: true }),
+    page.getByRole("heading", { name: old.title, exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Date TBC (1)", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Untitled Adventure", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByRole("heading", { name: "Date to be confirmed", exact: true }),
-  ).toBeVisible();
+    page.getByRole("heading", { name: "Nebula", exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Back to month", exact: true })
+    .click();
   await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
   await page.screenshot({
     path: info.outputPath("starred-sections.png"),

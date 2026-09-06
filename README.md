@@ -73,18 +73,19 @@ Auth requests use same-origin JSON endpoints; session cookies remain HttpOnly. R
 CI also runs the full account lifecycle against a pinned backend commit, PostgreSQL and Mailpit at desktop/mobile sizes. Update the backend revision in `.github/workflows/ci.yml` when intentionally changing the account contract. Locally set `E2E_BACKEND_PATH` to the sibling backend and `DATABASE_URL` to an isolated `upcoming_test` database, with Mailpit on localhost:8025/1025, before `npm run test:e2e`. The backend must already be built. Do not point browser tests at a personal database.
 
 Star buttons on film cards require a verified account and share state with the
-Starred tab. Saves update immediately, disable repeated clicks while pending,
+Watch list tab. Saves update immediately, disable repeated clicks while pending,
 and roll back with a visible error if the request fails. Reloading, switching
 app tabs, or returning focus to the browser refreshes the list from the server.
 Nothing is stored in localStorage; switching accounts discards the old list.
 
-The Starred tab groups upcoming films chronologically, then previously released
-films and films with no known UK wide theatrical date. Dates come from the same
-catalogue as the release calendar, so postponements do not remove stars.
+The Watch list tab groups dated films by month, with older films still accessible
+and a separate Date TBC view for films with no known UK wide theatrical date.
+Dates come from the same catalogue as the release calendar, so postponements do
+not remove stars.
 
 Browser CI covers real account creation and star persistence using PostgreSQL,
 Mailpit, and a fictional catalogue fixture in `upcoming_test`. Mocked browser
-scenarios additionally exercise request failure and all three list sections.
+scenarios additionally exercise request failure, monthly navigation and Date TBC.
 
 The Friends tab supports profile-link sharing, incoming/sent requests and accepted
 connections. `/friends/<userId>` opens a profile and preserves that route through
@@ -117,3 +118,29 @@ across focus changes, and invalidated around star and friendship changes. Failed
 unauthorized batches never leave old names visible; a list-level retry is available.
 Changes made in another browser session become visible when you return focus to
 the app or revisit the list.
+
+
+### Monthly browsing (UP-16, UP-17, UP-18)
+
+Personal and accepted friends’ watch lists open on the current UK month and use
+shared Previous / This month / Next controls. Dated films are grouped chronologically;
+older months remain accessible through the month selector. Empty intervening months
+have an explicit empty state. Date TBC retains films with no known release date.
+Month navigation is client-side over the existing watch-list response; it does not
+remove saved films or require a new backend endpoint.
+
+On mobile (up to 560px), Releases and monthly watch lists have a date rail beside
+the film groups. All days remain visible; grey dates have no films in the current
+view. Drag or tap to jump to the nearest populated date (ties choose the earlier
+date). Scrolling the film list updates the highlight. The rail is also a single
+keyboard-accessible slider: arrows move between populated dates, Home/End jump to
+the first/last date. It hides outside the list and on other app tabs. Date TBC has
+no date rail. On short screens the ticks are compact; the whole rail is the drag
+surface rather than requiring precise taps on individual ticks.
+
+IMDb and Letterboxd links use bundled SVG logos with accessible film/service names,
+new-tab hints and the original destinations. Source attribution is in
+`public/brands/README.md`.
+
+To test these changes, use backend `main` and frontend `feat/monthly-browsing`, then
+run `docker compose up --build -d --wait` from the backend repository.

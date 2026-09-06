@@ -8,17 +8,16 @@ export function StarredPage() {
   const { films, loading, ready, error } = useStars();
   return (
     <section className="starred-page" aria-labelledby="starred-title">
-      <p className="eyebrow">YOUR NEXT GREAT WATCH</p>
-      <h1 id="starred-title">
-        Worth the <em>wait.</em>
+      <h1 className="page-heading" id="starred-title">
+        Watch list
       </h1>
       {loading || accountLoading ? (
-        <p role="status">Loading your stars…</p>
+        <p role="status">Loading watch list…</p>
       ) : !user ? (
         <div className="empty-state">
           <Star size={28} aria-hidden="true" />
-          <h2>A place for your must-sees.</h2>
-          <p>Sign in to save the films you’re looking forward to.</p>
+          <h2>Sign in to view your watch list</h2>
+          <p>Save films you want to watch.</p>
           <Link className="action-button" to="/login?returnTo=%2Fstarred">
             Sign in to save films
           </Link>
@@ -31,11 +30,8 @@ export function StarredPage() {
           {!films.length && !error && (
             <div className="empty-state">
               <Star size={28} aria-hidden="true" />
-              <h2>Your next great watch is out there.</h2>
-              <p>
-                Choose “Want to watch” on the release calendar and you’ll find
-                your films here.
-              </p>
+              <h2>Your watch list is empty.</h2>
+              <p>Select “Want to watch” on a film to add it here.</p>
             </div>
           )}
           <WatchListSections films={films} />

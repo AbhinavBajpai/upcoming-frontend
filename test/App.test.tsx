@@ -11,7 +11,7 @@ describe("application navigation", () => {
       </MemoryRouter>,
     );
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Make time",
+      "Releases",
     );
     expect(screen.getByRole("link", { name: "Releases" })).toHaveAttribute(
       "aria-current",
@@ -28,7 +28,7 @@ describe("application navigation", () => {
     );
     fireEvent.click(screen.getByRole("link", { name: "Friends" }));
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Bring your people.",
+      "Friends",
     );
     expect(screen.getByRole("main")).toHaveFocus();
   });
@@ -39,7 +39,7 @@ describe("application navigation", () => {
       </MemoryRouter>,
     );
     expect(screen.getByRole("heading", { level: 1 })).toHaveTextContent(
-      "Worth the wait.",
+      "Watch list",
     );
     expect(
       screen.getByRole("link", { name: /Back to releases/ }),

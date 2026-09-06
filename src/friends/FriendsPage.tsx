@@ -11,9 +11,8 @@ export function FriendsPage() {
     { userId } = useParams();
   return (
     <section className="friends-page" aria-labelledby="friends-title">
-      <p className="eyebrow">BETTER IN GOOD COMPANY</p>
-      <h1 id="friends-title">
-        Bring your <em>people.</em>
+      <h1 className="page-heading" id="friends-title">
+        Friends
       </h1>
       {loading ? (
         <p role="status">Checking your account…</p>
@@ -39,7 +38,7 @@ function SignIn({ target }: { target?: string }) {
   return (
     <div className="empty-state">
       <Users size={28} aria-hidden="true" />
-      <h2>Cinema is better together.</h2>
+      <h2>Sign in to view friends</h2>
       <p>
         Sign in to connect with friends. You’ll both be able to see each other’s
         watch lists once a request is accepted.
@@ -69,7 +68,7 @@ function ShareProfile({ ownId }: { ownId: string }) {
   return (
     <section className="friend-share" aria-labelledby="share-title">
       <div>
-        <h2 id="share-title">Invite your cinema people.</h2>
+        <h2 id="share-title">Invite friends</h2>
         <p>
           Share your profile link. Your watch list stays private until you
           accept a friend request.
@@ -189,9 +188,6 @@ function FriendContent({ ownId, target }: { ownId: string; target?: string }) {
           {!view.data.watchList.films.length ? (
             <div className="empty-state">
               <h3>No films on this list yet.</h3>
-              <p>
-                Check back when your friend has found their next great watch.
-              </p>
             </div>
           ) : (
             <WatchListSections films={view.data.watchList.films} />

@@ -1,6 +1,6 @@
 import { FriendInterest } from "../interest/FriendInterest";
 import { useId, useState } from "react";
-import { Film, ExternalLink } from "lucide-react";
+import { Film } from "lucide-react";
 import { dateLabel } from "../calendar/api";
 import type { Film as FilmData } from "../stars/api";
 import { StarButton } from "../stars/StarButton";
@@ -32,11 +32,9 @@ function Poster({ film }: { film: FilmData }) {
 export function FilmCard({
   film,
   past = false,
-  showYear = false,
 }: {
   film: FilmData;
   past?: boolean;
-  showYear?: boolean;
 }) {
   const headingId = useId();
   const { films } = useStars();
@@ -46,23 +44,37 @@ export function FilmCard({
       className={`film-card${past ? " film-past" : ""}${starred ? " film-card-starred" : ""}`}
       aria-labelledby={headingId}
     >
-      <Poster key={`${film.id}-${film.posterPath}`} film={film} />
-      <div className="film-info">
-        <p className="film-category">
-          {film.isRevival ? "BACK ON THE BIG SCREEN" : "UK CINEMA RELEASE"}
-        </p>
-        <h4 id={headingId}>{film.title}</h4>
-        <p className="film-release">
-          {film.isRevival ? "Theatrical revival" : "In cinemas"} ·{" "}
+      <div className="film-stub">
+        <Poster key={`${film.id}-${film.posterPath}`} film={film} />
+        <span className="sr-only">
           {film.releaseDate ? (
             <time dateTime={film.releaseDate}>
-              {dateLabel(film.releaseDate)}
-              {showYear ? ` ${film.releaseDate.slice(0, 4)}` : null}
+              {dateLabel(film.releaseDate)} {film.releaseDate.slice(0, 4)}
             </time>
           ) : (
             "Date to be confirmed"
           )}
-        </p>
+        </span>
+        <div className="ticket-date" aria-hidden="true">
+          {film.releaseDate ? (
+            <>
+              <strong>{film.releaseDate.slice(8, 10)}</strong>
+              <span>
+                {new Intl.DateTimeFormat("en-GB", {
+                  month: "short",
+                  timeZone: "UTC",
+                }).format(new Date(`${film.releaseDate}T12:00:00Z`))}
+              </span>
+              <span>{film.releaseDate.slice(0, 4)}</span>
+            </>
+          ) : (
+            <span>Date TBC</span>
+          )}
+        </div>
+      </div>
+      <div className="film-info">
+        <h4 id={headingId}>{film.title}</h4>
+        {film.isRevival && <p className="film-revival">Theatrical revival</p>}
         <div className="film-primary-action">
           <StarButton film={film} />
         </div>
@@ -75,7 +87,13 @@ export function FilmCard({
               rel="noopener noreferrer"
               aria-label={`${film.title} on IMDb (opens in a new tab)`}
             >
-              IMDb <ExternalLink size={13} aria-hidden="true" />
+              <img
+                className="imdb-logo"
+                src="/brands/imdb.svg"
+                width="22"
+                height="22"
+                alt=""
+              />
             </a>
           ) : (
             <span
@@ -83,7 +101,13 @@ export function FilmCard({
               aria-label={`IMDb page unavailable for ${film.title}`}
               title="IMDb page unavailable"
             >
-              IMDb
+              <img
+                className="imdb-logo"
+                src="/brands/imdb.svg"
+                width="22"
+                height="22"
+                alt=""
+              />
             </span>
           )}
           <a
@@ -92,7 +116,13 @@ export function FilmCard({
             rel="noopener noreferrer"
             aria-label={`${film.title} on Letterboxd (opens in a new tab)`}
           >
-            Letterboxd <ExternalLink size={13} aria-hidden="true" />
+            <img
+              className="letterboxd-logo"
+              src="/brands/letterboxd.svg"
+              width="22"
+              height="22"
+              alt=""
+            />
           </a>
         </div>
       </div>

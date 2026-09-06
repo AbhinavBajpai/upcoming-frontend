@@ -111,8 +111,10 @@ describe("release calendar", () => {
       ),
     );
     mount();
-    await screen.findByText(/still gathering release dates/);
-    expect(screen.getByText("Good films are on their way.")).toBeVisible();
+    await screen.findByText(/Release dates for this month have not been updated yet/);
+    expect(
+      screen.getByText("Release dates have not been loaded yet."),
+    ).toBeVisible();
     expect(
       screen.getByRole("region", { name: "About and credits" }),
     ).toHaveTextContent("This product uses the TMDB API");

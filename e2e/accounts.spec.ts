@@ -55,7 +55,7 @@ test("register, verify, sign in, edit profile, recover password and sign out", a
     .getByRole("button", { name: "Create account", exact: true })
     .click();
   await expect(
-    page.getByRole("heading", { name: "Check your inbox." }),
+    page.getByRole("heading", { name: "Verify your email" }),
   ).toBeVisible();
   await page.goto(
     await emailLink(request, email, "Verify your Upcoming email"),
