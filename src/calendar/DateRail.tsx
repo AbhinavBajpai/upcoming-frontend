@@ -62,6 +62,9 @@ export function DateRail({
     window.addEventListener("resize", schedule);
     const observer = new ResizeObserver(schedule);
     if (container.current) observer.observe(container.current);
+    document
+      .querySelectorAll(".site-header, [data-month-navigation]")
+      .forEach((element) => observer.observe(element));
     return () => {
       cancelAnimationFrame(frame);
       observer.disconnect();

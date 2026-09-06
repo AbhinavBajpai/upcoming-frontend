@@ -7,6 +7,7 @@ export function MonthControls({
   from,
   to,
   disabled = false,
+  monthActive = true,
   onChange,
 }: {
   month: string;
@@ -14,6 +15,7 @@ export function MonthControls({
   from?: string;
   to?: string;
   disabled?: boolean;
+  monthActive?: boolean;
   onChange: (month: string) => void;
 }) {
   return (
@@ -30,7 +32,7 @@ export function MonthControls({
       <button
         type="button"
         className="month-today"
-        disabled={month === currentMonth}
+        disabled={monthActive && month === currentMonth}
         onClick={() => onChange(currentMonth)}
       >
         This month

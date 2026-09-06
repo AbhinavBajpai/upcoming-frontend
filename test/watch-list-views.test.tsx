@@ -37,7 +37,7 @@ it("includes the previous month's first day and all future dates, keeps TBC sepa
     </MemoryRouter>,
   );
   expect(screen.getAllByRole("article")).toHaveLength(1);
-  fireEvent.click(screen.getByRole("button", { name: "All months" }));
+  fireEvent.click(screen.getByRole("button", { name: "All" }));
   expect(screen.getAllByRole("article").map((a) => a.textContent)).toEqual([
     expect.stringContaining("Previous month"),
     expect.stringContaining("This month"),
@@ -46,13 +46,13 @@ it("includes the previous month's first day and all future dates, keeps TBC sepa
   expect(screen.getByRole("status")).toHaveTextContent(
     "3 films from August 2026 onward",
   );
-  expect(screen.queryByRole("combobox")).not.toBeInTheDocument();
-  fireEvent.click(screen.getByRole("button", { name: "Date TBC (1)" }));
+  expect(screen.getByRole("combobox")).toHaveValue("");
+  fireEvent.click(screen.getByRole("button", { name: "TBC (1)" }));
   expect(screen.getAllByRole("article")).toHaveLength(1);
   expect(screen.getByRole("article", { name: "Undated" })).toBeVisible();
-  fireEvent.click(screen.getByRole("button", { name: "Back to list" }));
+  fireEvent.click(screen.getByRole("button", { name: "TBC (1)" }));
   expect(screen.getAllByRole("article")).toHaveLength(3);
-  fireEvent.click(screen.getByRole("button", { name: "By month" }));
+  fireEvent.click(screen.getByRole("button", { name: "All" }));
   expect(screen.getByRole("combobox")).toHaveValue("2026-09");
   expect(screen.getAllByRole("article")).toHaveLength(1);
 });
@@ -70,7 +70,7 @@ it("uses the previous UK month across the year boundary", () => {
       />
     </MemoryRouter>,
   );
-  fireEvent.click(screen.getByRole("button", { name: "All months" }));
+  fireEvent.click(screen.getByRole("button", { name: "All" }));
   expect(
     screen.queryByRole("article", { name: "November" }),
   ).not.toBeInTheDocument();

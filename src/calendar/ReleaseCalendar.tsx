@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useNavigationType } from "react-router-dom";
-import { scrollOffset } from "./scrollOffset";
+import { useMonthScrollOffset } from "./useMonthScrollOffset";
 import { OtherMonthMatches } from "./OtherMonthMatches";
 import { DateRail } from "./DateRail";
 import { MonthControls } from "./MonthControls";
@@ -68,23 +68,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
   const range = result?.data?.range;
   const currentMonth = data?.currentMonth ?? currentUkMonth();
 
-  useEffect(() => {
-    const root = calendarRef.current;
-    const controls = root?.querySelector(".release-month-navigation");
-    const header = document.querySelector(".site-header");
-    if (!root || !controls) return;
-    const measure = () =>
-      root.style.setProperty("--release-scroll-offset", `${scrollOffset()}px`);
-    const observer = new ResizeObserver(measure);
-    observer.observe(controls);
-    if (header) observer.observe(header);
-    measure();
-    window.addEventListener("resize", measure);
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("resize", measure);
-    };
-  }, [active]);
+  useMonthScrollOffset(calendarRef, active);
   useEffect(() => {
     const controller = new AbortController();
     void fetchCalendar(month, controller.signal).then(
@@ -194,7 +178,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
         className="calendar"
         aria-labelledby="calendar-title"
       >
-        <div className="release-month-navigation">
+        <div className="release-month-navigation" data-month-navigation>
           <div className="section-heading">
             <div>
               <h2 id="calendar-title">{monthLabel(month)}</h2>
