@@ -242,7 +242,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
           <>
             <p className="calendar-summary" role="status">
               {visible.length} {visible.length === 1 ? "film" : "films"}
-              {filter ? " matching your search" : " on the calendar"}
+              {filter ? " matching your search this month" : " on the calendar"}
               {data.lastSuccessfulSync && (
                 <span>
                   Updated{" "}
@@ -270,7 +270,7 @@ export function ReleaseCalendar({ active }: { active: boolean }) {
                 </div>
                 <h3>
                   {filter
-                    ? "No titles match your search."
+                    ? "No titles match in this month."
                     : data.monthSynced
                       ? "No releases listed for this month."
                       : "Release dates have not been loaded yet."}

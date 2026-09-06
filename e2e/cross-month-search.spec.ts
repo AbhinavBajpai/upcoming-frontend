@@ -47,7 +47,7 @@ test("suggestions navigate to a matching film and Back restores month/query", as
   ).toBeVisible();
   await page.getByRole("searchbox").fill("devils");
   await expect(
-    page.getByText("No titles match your search.", { exact: true }),
+    page.getByText("No titles match in this month.", { exact: true }),
   ).toBeVisible();
   const suggestions = page.getByRole("region", {
     name: "Matches in other months",
@@ -55,6 +55,7 @@ test("suggestions navigate to a matching film and Back restores month/query", as
   await expect(
     suggestions.getByRole("link", { name: /The Devils/ }),
   ).toBeVisible();
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
     path: info.outputPath("other-month-suggestions.png"),
   });
