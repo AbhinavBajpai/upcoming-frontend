@@ -128,6 +128,7 @@ test("personal and friend lists paginate months without losing old or undated fi
       page.getByRole("article", { name: "Nebula", exact: true }),
     ).toBeVisible();
   }
+  await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
     path: info.outputPath("monthly-friend-list.png"),
     fullPage: true,
@@ -158,17 +159,21 @@ test("mobile date rail supports dragging, keyboard navigation and ordinary scrol
     page.locator('[data-release-date="2026-09-30"]'),
   ).toBeInViewport();
   const bounds = (await rail.boundingBox())!;
-  await page.mouse.move(
-    bounds.x + bounds.width / 2,
-    bounds.y + bounds.height - 4,
-  );
-  await page.mouse.down();
-  await page.mouse.move(
-    bounds.x + bounds.width / 2,
-    bounds.y + (bounds.height * 4.5) / 30,
-    { steps: 8 },
-  );
-  await page.mouse.up();
+  const touch = await page.context().newCDPSession(page);
+  const x = bounds.x + bounds.width / 2;
+  await touch.send("Input.dispatchTouchEvent", {
+    type: "touchStart",
+    touchPoints: [{ x, y: bounds.y + bounds.height - 4 }],
+  });
+  await touch.send("Input.dispatchTouchEvent", {
+    type: "touchMove",
+    touchPoints: [{ x, y: bounds.y + (bounds.height * 4.5) / 30 }],
+  });
+  await touch.send("Input.dispatchTouchEvent", {
+    type: "touchEnd",
+    touchPoints: [],
+  });
+  await touch.detach();
   await expect(rail).toHaveAttribute("aria-valuenow", "5");
   await expect(
     page.locator('[data-release-date="2026-09-05"]'),

@@ -98,7 +98,9 @@ export function DateRail({
     );
     jump(nearestDate(available, day));
   }
-  const selected = position.date || available[0];
+  const selected = available.includes(position.date)
+    ? position.date
+    : available[0];
   return (
     <div
       ref={container}
