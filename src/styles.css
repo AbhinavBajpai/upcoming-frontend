@@ -1304,17 +1304,6 @@ footer {
   cursor: pointer;
 }
 
-.watch-month-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  flex-wrap: wrap;
-  margin-top: 28px;
-}
-.watch-month-heading h2 {
-  font-size: 24px;
-}
 .watch-tbc,
 .watch-month-select select {
   background: var(--ui-surface-tint);
@@ -1562,30 +1551,56 @@ nav a {
   margin: 0;
 }
 .calendar .release-day,
-.calendar .film-card {
+.calendar .film-card,
+.watch-list-sections .release-day,
+.watch-list-sections .film-card {
   scroll-margin-top: var(--release-scroll-offset, 120px);
 }
 @media (max-width: 560px) {
-  .release-month-navigation {
+  [data-month-navigation] {
     position: sticky;
     top: var(--site-header-height, 128px);
     z-index: 8;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
     padding: 10px 0;
     background: var(--ui-page);
     border-bottom: 1px solid var(--ui-border);
+  }
+  .release-month-navigation {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
   }
   .release-month-navigation h2 {
     font-size: 20px;
   }
 }
 
+.watch-month-navigation {
+  margin: 28px 0 16px;
+}
+.watch-month-navigation .release-month-navigation {
+  margin-bottom: 10px;
+}
 .watch-view-controls {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto minmax(0, 1fr);
   gap: 8px;
+  max-width: 460px;
+}
+.watch-month-select,
+.watch-month-select select {
+  min-width: 0;
+  width: 100%;
+}
+@media (max-width: 560px) {
+  .watch-view-controls {
+    max-width: none;
+  }
+  .watch-view-controls .watch-tbc,
+  .watch-month-select select {
+    padding: 8px;
+    font-size: 13px;
+  }
 }
 
 /* On the narrowest phones, leave the actions a full row beside the date stub. */

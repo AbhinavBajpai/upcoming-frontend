@@ -120,9 +120,7 @@ test("personal and friend lists paginate months without losing old or undated fi
     await expect(
       page.getByText("No watch-list films this month.", { exact: true }),
     ).toBeVisible();
-    await page
-      .getByRole("button", { name: "Date TBC (1)", exact: true })
-      .click();
+    await page.getByRole("button", { name: "TBC (1)", exact: true }).click();
     await expect(
       page.getByRole("article", { name: "Undated film", exact: true }),
     ).toBeVisible();
@@ -200,7 +198,7 @@ test("both watch lists can show recent and future releases together", async ({
 }) => {
   for (const path of ["/starred", "/friends/bob"]) {
     await page.goto(path);
-    await page.getByRole("button", { name: "All months", exact: true }).click();
+    await page.getByRole("button", { name: "All", exact: true }).click();
     await expect(page.getByRole("article")).toHaveCount(2);
     await expect(
       page.getByRole("article", { name: "Nebula", exact: true }),
@@ -211,17 +209,13 @@ test("both watch lists can show recent and future releases together", async ({
     await expect(
       page.getByRole("article", { name: "Last year", exact: true }),
     ).toHaveCount(0);
-    await page
-      .getByRole("button", { name: "Date TBC (1)", exact: true })
-      .click();
+    await page.getByRole("button", { name: "TBC (1)", exact: true }).click();
     await expect(
       page.getByRole("article", { name: "Undated film", exact: true }),
     ).toBeVisible();
-    await page
-      .getByRole("button", { name: "Back to list", exact: true })
-      .click();
+    await page.getByRole("button", { name: "TBC (1)", exact: true }).click();
     await expect(page.getByRole("article")).toHaveCount(2);
-    await page.getByRole("button", { name: "By month", exact: true }).click();
+    await page.getByRole("button", { name: "All", exact: true }).click();
     await expect(page.getByRole("article")).toHaveCount(1);
   }
 });
@@ -241,7 +235,9 @@ test("mobile month controls stay below the header while scrolling, with larger p
   const header = (await page.locator(".site-header").boundingBox())!;
   const box = (await controls.boundingBox())!;
   expect(Math.abs(box.y - (header.y + header.height))).toBeLessThan(2);
-  expect((await page.locator(".poster").first().boundingBox())!.width).toBe(110);
+  expect((await page.locator(".poster").first().boundingBox())!.width).toBe(
+    110,
+  );
   await page.screenshot({ path: info.outputPath("sticky-month-controls.png") });
   await page.getByRole("button", { name: "Next month", exact: true }).click();
   await expect(
@@ -289,4 +285,109 @@ test("Friends tab shows incoming requests and retains the badge on blur", async 
   await page.evaluate(() => window.dispatchEvent(new Event("blur")));
   await expect(tab.locator(".friends-badge")).toHaveText("1");
   await page.screenshot({ path: info.outputPath("friends-request-badge.png") });
+});
+
+test("mobile watch-list controls share a sticky two-row layout on personal and friend lists", async ({
+  page,
+  isMobile,
+}, info) => {
+  test.skip(!isMobile);
+  const films = calendarFixture().films.map((film) => ({
+    ...film,
+    section: "upcoming",
+  }));
+  await page.route("**/api/stars", (route) =>
+    route.fulfill({ json: { today: "2026-09-05", films } }),
+  );
+  await page.route("**/api/friends/profiles/bob/watch-list", (route) =>
+    route.fulfill({
+      json: {
+        profile: { id: "bob", displayName: "Bob" },
+        today: "2026-09-05",
+        films,
+      },
+    }),
+  );
+  for (const path of ["/starred", "/friends/bob"]) {
+    await page.goto(path);
+    await expect(
+      page.getByRole("article", { name: "Nebula", exact: true }),
+    ).toBeVisible();
+    await page.evaluate(() => window.scrollTo(0, 1400));
+    const controls = page.locator(".watch-month-navigation");
+    const header = (await page.locator(".site-header").boundingBox())!;
+    await expect(controls).toBeInViewport();
+    const bounds = (await controls.boundingBox())!;
+    expect(Math.abs(bounds.y - header.y - header.height)).toBeLessThan(2);
+    const monthButtons = (await controls
+      .locator(".month-controls")
+      .boundingBox())!;
+    const lowerRow = (await controls
+      .locator(".watch-view-controls")
+      .boundingBox())!;
+    expect(lowerRow.y).toBeGreaterThanOrEqual(
+      monthButtons.y + monthButtons.height,
+    );
+    const rail = page.getByRole("slider");
+    await expect(rail).toBeVisible();
+    expect((await rail.boundingBox())!.y).toBeGreaterThanOrEqual(
+      bounds.y + bounds.height,
+    );
+    await rail.focus();
+    await rail.press("End");
+    const date = page.locator('[data-release-date="2026-09-30"]');
+    await expect(date).toBeInViewport();
+    expect((await date.boundingBox())!.y).toBeGreaterThanOrEqual(
+      bounds.y + bounds.height - 2,
+    );
+    await page.screenshot({
+      path: info.outputPath(
+        path === "/starred"
+          ? "sticky-own-watch-list.png"
+          : "sticky-friend-watch-list.png",
+      ),
+    });
+    await controls.getByRole("button", { name: "All", exact: true }).click();
+    await expect(
+      controls.getByRole("button", { name: "All", exact: true }),
+    ).toHaveAttribute("aria-pressed", "true");
+    await expect(
+      controls.getByRole("button", { name: "This month", exact: true }),
+    ).toBeEnabled();
+    await controls
+      .getByRole("button", { name: "This month", exact: true })
+      .click();
+    await expect(controls.getByRole("combobox")).toHaveValue("2026-09");
+    await controls
+      .getByRole("button", { name: "TBC (0)", exact: true })
+      .click();
+    await controls.getByRole("combobox").selectOption("2026-09");
+    await expect(
+      controls.getByRole("button", { name: "TBC (0)", exact: true }),
+    ).toHaveAttribute("aria-pressed", "false");
+    await page.setViewportSize({ width: 320, height: 700 });
+    const rowControls = controls
+      .locator(".watch-view-controls")
+      .locator("button, select");
+    const boxes = await Promise.all(
+      (await rowControls.all()).map((control) => control.boundingBox()),
+    );
+    expect(
+      Math.max(...boxes.map((box) => box!.y)) -
+        Math.min(...boxes.map((box) => box!.y)),
+    ).toBeLessThan(2);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page.screenshot({
+      path: info.outputPath(
+        path === "/starred"
+          ? "narrow-own-watch-list.png"
+          : "narrow-friend-watch-list.png",
+      ),
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+  }
 });

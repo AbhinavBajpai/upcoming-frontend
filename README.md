@@ -179,3 +179,11 @@ Both personal and friends’ watch lists offer **All months**: films dated from 
 start of the previous UK calendar month onward, including all future dates.
 Older films remain available in monthly view. **Date TBC** stays separate, and
 returning to **By month** restores the selected month.
+
+
+Watch-list controls now match Releases: the month heading and Previous / This month /
+Next controls are followed by one row containing **All**, **TBC** and the month
+dropdown. On mobile, the complete control block sticks below the header on both
+personal and friends’ lists. Date jumps allow for its height. Selecting a month
+or using the month navigation leaves All/TBC; pressing the active All or TBC
+button again returns to the preceding view.
