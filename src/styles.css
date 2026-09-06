@@ -751,6 +751,9 @@ input:focus-visible {
   padding: 22px 20px;
 }
 .film-info h4 {
+  color: var(--ticket-paper);
+  background: var(--ticket-ink);
+  padding: 2px 4px;
   font-family: "Offside", sans-serif;
   font-size: 22px;
   font-weight: 400;
